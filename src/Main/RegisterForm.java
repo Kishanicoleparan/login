@@ -45,7 +45,7 @@ public class RegisterForm extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -95,6 +95,11 @@ public class RegisterForm extends javax.swing.JFrame {
         jButton_Register.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton_Register.setForeground(new java.awt.Color(255, 255, 255));
         jButton_Register.setText("Sign Up");
+        jButton_Register.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton_RegisterMouseClicked(evt);
+            }
+        });
         jButton_Register.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_RegisterActionPerformed(evt);
@@ -169,10 +174,10 @@ public class RegisterForm extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/landing.jpg"))); // NOI18N
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 450));
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 650, 450);
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, -1));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MouseClicked
@@ -233,6 +238,11 @@ public class RegisterForm extends javax.swing.JFrame {
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jButton_RegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_RegisterMouseClicked
+        dbConnect con = new dbConnect();
+        String sql = "INSERT INTO tbl_accounts (name"
+    }//GEN-LAST:event_jButton_RegisterMouseClicked
 
     /**
      * @param args the command line arguments
