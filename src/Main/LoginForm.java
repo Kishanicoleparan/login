@@ -5,7 +5,18 @@
  */
 package Main;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.security.MessageDigest;
+
+
+
+
+
+
 
 /**
  *
@@ -18,6 +29,7 @@ public class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
+        
     }
 
     /**
@@ -32,12 +44,13 @@ public class LoginForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField_Username = new javax.swing.JTextField();
+        username = new javax.swing.JTextField();
         jButton_LoginForm = new javax.swing.JButton();
         jLabel3_Register = new javax.swing.JLabel();
-        jPasswordField = new javax.swing.JPasswordField();
+        password = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        labelForgotPassword = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -51,25 +64,25 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Username:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 170, 90, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 170, 90, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Password:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 220, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 220, -1, -1));
 
-        jTextField_Username.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField_Username.addMouseListener(new java.awt.event.MouseAdapter() {
+        username.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        username.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTextField_UsernameMouseClicked(evt);
+                usernameMouseClicked(evt);
             }
         });
-        jTextField_Username.addActionListener(new java.awt.event.ActionListener() {
+        username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_UsernameActionPerformed(evt);
+                usernameActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField_Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 170, -1));
+        jPanel1.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 170, 190, -1));
 
         jButton_LoginForm.setBackground(new java.awt.Color(0, 102, 102));
         jButton_LoginForm.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -80,7 +93,7 @@ public class LoginForm extends javax.swing.JFrame {
                 jButton_LoginFormActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton_LoginForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 280, 170, 30));
+        jPanel1.add(jButton_LoginForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, 190, 30));
 
         jLabel3_Register.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3_Register.setForeground(new java.awt.Color(0, 153, 153));
@@ -91,38 +104,49 @@ public class LoginForm extends javax.swing.JFrame {
                 jLabel3_RegisterMouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel3_Register, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 320, -1, 20));
+        jPanel1.add(jLabel3_Register, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 360, -1, 20));
 
-        jPasswordField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jPasswordField.addActionListener(new java.awt.event.ActionListener() {
+        password.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordFieldActionPerformed(evt);
+                passwordActionPerformed(evt);
             }
         });
-        jPanel1.add(jPasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 220, 170, -1));
+        jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 220, 190, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/landing.jpg"))); // NOI18N
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 450));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 450));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Login");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, 140, 70));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 50, 140, 70));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 450));
+        labelForgotPassword.setForeground(new java.awt.Color(0, 153, 153));
+        labelForgotPassword.setText("Forgot Password?");
+        labelForgotPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelForgotPasswordMouseClicked(evt);
+            }
+        });
+        jPanel1.add(labelForgotPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 310, 110, 20));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 450));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField_UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_UsernameActionPerformed
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_UsernameActionPerformed
+    }//GEN-LAST:event_usernameActionPerformed
 
-    private void jTextField_UsernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField_UsernameMouseClicked
+    private void usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usernameMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_UsernameMouseClicked
-
+    }//GEN-LAST:event_usernameMouseClicked
+    
+   
+     
     private void jLabel3_RegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3_RegisterMouseClicked
        RegisterForm rgf = new RegisterForm();
        rgf.setVisible(true);
@@ -130,21 +154,149 @@ public class LoginForm extends javax.swing.JFrame {
        rgf.setLocationRelativeTo(null);
        rgf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        this.dispose();
-    }//GEN-LAST:event_jLabel3_RegisterMouseClicked
+      
 
+    }//GEN-LAST:event_jLabel3_RegisterMouseClicked
+    private String hashPassword(String password) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(password.getBytes("UTF-8"));
+
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            hexString.append(String.format("%02x", b));
+        }
+        return hexString.toString();
+
+    } catch (Exception e) {
+        return null;
+    }
+}
     private void jButton_LoginFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LoginFormActionPerformed
-        // login
-        // test
-      Dashboard dashboard = new Dashboard();
-      dashboard.setVisible(true);
-      this.dispose();
+                                                     
+
+    String uname = username.getText().trim();
+    String pass = new String(password.getPassword()).trim();
+    // HASH THE PASSWORD
+    String hashedPass = hashPassword(pass);
+
+    // ===== VALIDATION =====
+    if (uname.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Username is required!");
+        username.requestFocus();
+        return;
+    }
+
+    if (pass.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Password is required!");
+        password.requestFocus();
+        return;
+    }
+
+    // ===== DATABASE LOGIN CHECK =====
+    try {
+        config.config conDB = new config.config();
+        Connection con = conDB.connectDB();
+
+    String sql = "SELECT * FROM tbl_accounts WHERE username = ? AND password = ? AND status = 'APPROVED'";
+    PreparedStatement pst = con.prepareStatement(sql);
+    pst.setString(1, uname);
+    pst.setString(2, hashedPass);
+
+    ResultSet rs = pst.executeQuery();
+
+    if (rs.next()) {
+    JOptionPane.showMessageDialog(this, "Login Successful!");
+
+    String userType = rs.getString("type");
+
+    if (userType.equals("ADMIN")) {
+        new AdminDashboard().setVisible(true);
+    } else {
+        new Dashboard().setVisible(true);
+    }
+
+    this.dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(
+        this,
+        "Login failed!\n\nPossible reasons:\n" +
+        "- Wrong username or password\n" +
+        "- Account not yet approved by admin"
+);
+
+        }
+
+        con.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Database Error: " + e.getMessage());
+    }
+
+
  
        
     }//GEN-LAST:event_jButton_LoginFormActionPerformed
+    
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        String pass = new String(password.getPassword()).trim();
 
-    private void jPasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordFieldActionPerformed
+    }//GEN-LAST:event_passwordActionPerformed
+    private boolean passwordVisible = false;
+    
+    private void labelForgotPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelForgotPasswordMouseClicked
+         String email = JOptionPane.showInputDialog(
+        this,
+        "Enter your registered email:"
+    );
+
+    if (email == null || email.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Email is required!");
+        return;
+    }
+
+    try {
+        config.config conDB = new config.config();
+        Connection con = conDB.connectDB();
+
+        String checkSQL = "SELECT * FROM tbl_accounts WHERE email = ?";
+        PreparedStatement pst = con.prepareStatement(checkSQL);
+        pst.setString(1, email);
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String newPass = JOptionPane.showInputDialog(
+                this,
+                "Enter new password:"
+            );
+
+            if (newPass == null || newPass.length() < 6) {
+                JOptionPane.showMessageDialog(this, "Password too short!");
+                return;
+            }
+
+            String hashed = hashPassword(newPass);
+
+            String updateSQL = "UPDATE tbl_accounts SET password = ? WHERE email = ?";
+            PreparedStatement up = con.prepareStatement(updateSQL);
+            up.setString(1, hashed);
+            up.setString(2, email);
+            up.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Password reset successful!");
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Email not found!");
+        }
+
+        con.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+    }//GEN-LAST:event_labelForgotPasswordMouseClicked
 
     /**
      * @param args the command line arguments
@@ -190,7 +342,8 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3_Register;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField;
-    private javax.swing.JTextField jTextField_Username;
+    private javax.swing.JLabel labelForgotPassword;
+    private javax.swing.JPasswordField password;
+    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

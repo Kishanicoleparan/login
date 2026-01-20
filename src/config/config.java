@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 
+
 public class config {
     //Connection Method to SQLITE
 public static Connection connectDB() {
@@ -21,7 +22,7 @@ public static Connection connectDB() {
         return con;
     }
 
-       public int addRecord(String sql, Object... values) {
+public void addRecord(String sql, Object... values) {
     try (Connection conn = this.connectDB(); // Use the connectDB method
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -54,4 +55,9 @@ public static Connection connectDB() {
         System.out.println("Error adding record: " + e.getMessage());
     }
 }
+       
 }
+
+
+
+
