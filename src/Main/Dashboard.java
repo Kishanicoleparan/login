@@ -5,6 +5,8 @@
  */
 package Main;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author USER35
@@ -31,17 +33,17 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        Menus = new javax.swing.JButton();
+        Packages = new javax.swing.JButton();
+        Reservations = new javax.swing.JButton();
+        ViewReservations = new javax.swing.JButton();
+        profile = new javax.swing.JButton();
+        Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
@@ -50,7 +52,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel1.setText("WELCOME TO REDEFINED CATERING");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, -1, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 90));
 
@@ -63,28 +65,53 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 680, -1, -1));
 
-        jButton2.setText("Menus");
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 140, -1));
-
-        jButton3.setText("Packages");
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 140, -1));
-
-        jButton4.setText("Reservations");
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 140, -1));
-
-        jButton5.setText("View Reservations");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        Menus.setText("Menus");
+        Menus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                MenusActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 140, -1));
+        jPanel2.add(Menus, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 140, -1));
 
-        jButton6.setText("Profile");
-        jPanel2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 140, -1));
+        Packages.setText("Packages");
+        Packages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PackagesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 140, -1));
 
-        jButton7.setText("Logout");
-        jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 140, -1));
+        Reservations.setText("Reservations");
+        Reservations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReservationsActionPerformed(evt);
+            }
+        });
+        jPanel2.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 140, -1));
+
+        ViewReservations.setText("View Reservations");
+        ViewReservations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewReservationsActionPerformed(evt);
+            }
+        });
+        jPanel2.add(ViewReservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
+
+        profile.setText("Profile");
+        profile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileActionPerformed(evt);
+            }
+        });
+        jPanel2.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, -1));
+
+        Logout.setText("Logout");
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
+        jPanel2.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 140, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 730));
 
@@ -102,9 +129,72 @@ public class Dashboard extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void ViewReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewReservationsActionPerformed
+        ViewReservations vr = new ViewReservations();
+        vr.setVisible(true);
+        vr.pack();
+        vr.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_ViewReservationsActionPerformed
+
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+        int choice = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to logout?",
+        "Confirm Logout",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE
+    );
+
+    if (choice == JOptionPane.YES_OPTION) {
+
+        // ✅ Clear session data
+        Session.userId = 0;
+        Session.username = null;
+        Session.type = null;
+
+        // ✅ Go back to login
+        LoginForm lgf = new LoginForm();
+        lgf.setVisible(true);
+        lgf.pack();
+        lgf.setLocationRelativeTo(null);
+
+        // ✅ Close current window
+        this.dispose();
+    }
+    }//GEN-LAST:event_LogoutActionPerformed
+
+    private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
+        UsersProfile users = new UsersProfile();
+        users.setVisible(true);
+        users.pack();
+        users.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_profileActionPerformed
+
+    private void MenusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenusActionPerformed
+        Menus menu = new Menus();
+        menu.setVisible(true);
+        menu.pack();
+        menu.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_MenusActionPerformed
+
+    private void PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PackagesActionPerformed
+        Packages pack = new Packages();
+        pack.setVisible(true);
+        pack.pack();
+        pack.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_PackagesActionPerformed
+
+    private void ReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReservationsActionPerformed
+        Reservations rsv = new Reservations();
+        rsv.setVisible(true);
+        rsv.pack();
+        rsv.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_ReservationsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -142,15 +232,15 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Logout;
+    private javax.swing.JButton Menus;
+    private javax.swing.JButton Packages;
+    private javax.swing.JButton Reservations;
+    private javax.swing.JButton ViewReservations;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton profile;
     // End of variables declaration//GEN-END:variables
 }
