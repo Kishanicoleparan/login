@@ -44,7 +44,7 @@ public class LoginForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        username = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jButton_LoginForm = new javax.swing.JButton();
         jLabel3_Register = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
@@ -63,7 +63,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Username:");
+        jLabel1.setText("Email:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 170, 90, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -71,18 +71,18 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel2.setText("Password:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 220, -1, -1));
 
-        username.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        username.addMouseListener(new java.awt.event.MouseAdapter() {
+        email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        email.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                usernameMouseClicked(evt);
+                emailMouseClicked(evt);
             }
         });
-        username.addActionListener(new java.awt.event.ActionListener() {
+        email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
+                emailActionPerformed(evt);
             }
         });
-        jPanel1.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 170, 190, -1));
+        jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 170, 190, -1));
 
         jButton_LoginForm.setBackground(new java.awt.Color(0, 102, 102));
         jButton_LoginForm.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -137,13 +137,13 @@ public class LoginForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
+    }//GEN-LAST:event_emailActionPerformed
 
-    private void usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usernameMouseClicked
+    private void emailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emailMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameMouseClicked
+    }//GEN-LAST:event_emailMouseClicked
     
    
      
@@ -175,17 +175,23 @@ public class LoginForm extends javax.swing.JFrame {
     private void jButton_LoginFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LoginFormActionPerformed
                                                      
 
-    String uname = username.getText().trim();
+    String uemail = email.getText().trim();
     String pass = new String(password.getPassword()).trim();
     // HASH THE PASSWORD
     String hashedPass = hashPassword(pass);
 
     // ===== VALIDATION =====
-    if (uname.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Username is required!");
-        username.requestFocus();
+    if (uemail.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Email is required!");
+        email.requestFocus();
         return;
     }
+    if (!uemail.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+    JOptionPane.showMessageDialog(this, "Invalid email format!");
+    email.requestFocus();
+    return;
+}
+
 
     if (pass.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Password is required!");
@@ -198,25 +204,31 @@ public class LoginForm extends javax.swing.JFrame {
         config.config conDB = new config.config();
         Connection con = conDB.connectDB();
 
-    String sql = "SELECT * FROM tbl_accounts WHERE username = ? AND password = ? AND status = 'APPROVED'";
+    String sql = "SELECT * FROM tbl_accounts WHERE email = ? AND password = ? AND status = 'APPROVED'";
     PreparedStatement pst = con.prepareStatement(sql);
-    pst.setString(1, uname);
+    pst.setString(1, uemail);
     pst.setString(2, hashedPass);
 
     ResultSet rs = pst.executeQuery();
 
     if (rs.next()) {
+
+    // ✅ SET SESSION DATA HERE
+    Session.userId = rs.getInt("u_id");   // MUST match your DB column
+    Session.username = rs.getString("username");
+    Session.type = rs.getString("type");
+
     JOptionPane.showMessageDialog(this, "Login Successful!");
 
-    String userType = rs.getString("type");
-
-    if (userType.equals("ADMIN")) {
+    if (Session.type.equals("ADMIN")) {
         new AdminDashboard().setVisible(true);
     } else {
         new Dashboard().setVisible(true);
     }
 
     this.dispose();
+
+
 
         } else {
             JOptionPane.showMessageDialog(
@@ -335,6 +347,7 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField email;
     private javax.swing.JButton jButton_LoginForm;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -344,6 +357,5 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelForgotPassword;
     private javax.swing.JPasswordField password;
-    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

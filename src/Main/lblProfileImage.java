@@ -7,16 +7,8 @@ package Main;
 
 /**
  *
- * @author Admin
+ * @author USER35
  */
-
-    public class Session {
-    public static int userId;
-    public static String username;
-    public static String email;
-    public static String type;
-
-  
+class lblProfileImage {
+    
 }
-
-
