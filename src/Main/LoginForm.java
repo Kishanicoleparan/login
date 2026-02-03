@@ -48,7 +48,7 @@ public class LoginForm extends javax.swing.JFrame {
         jButton_LoginForm = new javax.swing.JButton();
         jLabel3_Register = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         labelForgotPassword = new javax.swing.JLabel();
 
@@ -114,8 +114,13 @@ public class LoginForm extends javax.swing.JFrame {
         });
         jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 220, 190, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/landing.jpg"))); // NOI18N
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 450));
+        jLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/landing.jpg"))); // NOI18N
+        jLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 450));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -220,11 +225,22 @@ public class LoginForm extends javax.swing.JFrame {
 
     JOptionPane.showMessageDialog(this, "Login Successful!");
 
-    if (Session.type.equals("ADMIN")) {
-        new AdminDashboard().setVisible(true);
-    } else {
-        new Dashboard().setVisible(true);
-    }
+    if (Session.type.equalsIgnoreCase("ADMIN")) {
+
+    new AdminDashboard().setVisible(true);
+
+} else if (Session.type.equalsIgnoreCase("STAFF")) {
+
+    new StaffDashboard().setVisible(true);
+
+} else if (Session.type.equalsIgnoreCase("CUSTOMER")) {
+
+    new Dashboard().setVisible(true);
+
+} else {
+    JOptionPane.showMessageDialog(this, "Unknown user role!");
+}
+
 
     this.dispose();
 
@@ -310,6 +326,11 @@ public class LoginForm extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_labelForgotPasswordMouseClicked
 
+    private void jLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMouseClicked
+     
+
+    }//GEN-LAST:event_jLabelMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -349,11 +370,11 @@ public class LoginForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField email;
     private javax.swing.JButton jButton_LoginForm;
+    private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel3_Register;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelForgotPassword;
     private javax.swing.JPasswordField password;

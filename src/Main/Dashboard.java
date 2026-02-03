@@ -30,31 +30,82 @@ public class Dashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jpanel = new javax.swing.JPanel();
         Menus = new javax.swing.JButton();
         Packages = new javax.swing.JButton();
         Reservations = new javax.swing.JButton();
         ViewReservations = new javax.swing.JButton();
         profile = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(102, 102, 102));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jpanel.setBackground(new java.awt.Color(51, 51, 51));
+        jpanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jpanelMouseClicked(evt);
+            }
+        });
+        jpanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setText("WELCOME TO REDEFINED CATERING");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, -1, -1));
+        Menus.setText("Menus");
+        Menus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenusActionPerformed(evt);
+            }
+        });
+        jpanel.add(Menus, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 140, -1));
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 90));
+        Packages.setText("Packages");
+        Packages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PackagesActionPerformed(evt);
+            }
+        });
+        jpanel.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 140, -1));
+
+        Reservations.setText("Reservations");
+        Reservations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReservationsActionPerformed(evt);
+            }
+        });
+        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 140, -1));
+
+        ViewReservations.setText("View Reservations");
+        ViewReservations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewReservationsActionPerformed(evt);
+            }
+        });
+        jpanel.add(ViewReservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 140, -1));
+
+        profile.setText("Profile");
+        profile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileActionPerformed(evt);
+            }
+        });
+        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 140, -1));
+
+        Logout.setText("Logout");
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
+        jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
+        jpanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 120));
+
+        jPanel2.add(jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 490));
 
         jButton1.setBackground(new java.awt.Color(0, 102, 204));
         jButton1.setText("Continue....");
@@ -65,55 +116,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 680, -1, -1));
 
-        Menus.setText("Menus");
-        Menus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenusActionPerformed(evt);
-            }
-        });
-        jPanel2.add(Menus, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 140, -1));
-
-        Packages.setText("Packages");
-        Packages.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PackagesActionPerformed(evt);
-            }
-        });
-        jPanel2.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 140, -1));
-
-        Reservations.setText("Reservations");
-        Reservations.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ReservationsActionPerformed(evt);
-            }
-        });
-        jPanel2.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 140, -1));
-
-        ViewReservations.setText("View Reservations");
-        ViewReservations.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ViewReservationsActionPerformed(evt);
-            }
-        });
-        jPanel2.add(ViewReservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
-
-        profile.setText("Profile");
-        profile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profileActionPerformed(evt);
-            }
-        });
-        jPanel2.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, -1));
-
-        Logout.setText("Logout");
-        Logout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LogoutActionPerformed(evt);
-            }
-        });
-        jPanel2.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 140, -1));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 730));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 490));
 
         pack();
         setLocationRelativeTo(null);
@@ -196,6 +199,10 @@ public class Dashboard extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_ReservationsActionPerformed
 
+    private void jpanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpanelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jpanelMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -238,9 +245,9 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton Reservations;
     private javax.swing.JButton ViewReservations;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jpanel;
     private javax.swing.JButton profile;
     // End of variables declaration//GEN-END:variables
 }

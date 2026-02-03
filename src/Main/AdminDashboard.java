@@ -5,6 +5,9 @@
  */
 package Main;
 
+
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
@@ -29,54 +32,117 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1continue = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        UserProfile = new javax.swing.JButton();
+        logout = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel1.setText("Welcome ");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, 210, -1));
-
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 90));
-
-        jButton1continue.setBackground(new java.awt.Color(51, 0, 204));
-        jButton1continue.setText("Continue....");
-        jButton1continue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1continueActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1continue, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 570, -1, -1));
-
-        jButton1.setText("Users");
+        jButton1.setText("View Users");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 140, -1));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 140, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-90, 0, 990, 610));
+        UserProfile.setText("Profile");
+        UserProfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UserProfileActionPerformed(evt);
+            }
+        });
+        jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 140, -1));
+
+        logout.setText("Logout");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+        jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 410, 140, -1));
+
+        jButton2.setText("Manage Users");
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 140, -1));
+
+        jButton3.setText("Reservations");
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 140, -1));
+
+        jButton4.setText("Menus");
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 140, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 120));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 540));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menu (2).png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, 130, 140));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/reserved.png"))); // NOI18N
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, 130, 120));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user (1).png"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 320, 130, 120));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/3d-report.png"))); // NOI18N
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 320, -1, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, -1));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1continueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1continueActionPerformed
-        RegisterForm rgf = new RegisterForm();
-        rgf.setVisible(true);
-        rgf.pack();
-        rgf.setLocationRelativeTo(null);
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        int choice = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to logout?",
+            "Confirm Logout",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (choice == JOptionPane.YES_OPTION) {
+
+            // ✅ Clear session data
+            Session.userId = 0;
+            Session.username = null;
+            Session.type = null;
+
+            // ✅ Go back to login
+            LoginForm lgf = new LoginForm();
+            lgf.setVisible(true);
+            lgf.pack();
+            lgf.setLocationRelativeTo(null);
+
+            // ✅ Close current window
+            this.dispose();
+        }
+    }//GEN-LAST:event_logoutActionPerformed
+
+    private void UserProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserProfileActionPerformed
+        UsersProfile users = new UsersProfile();
+        users.setVisible(true);
+        users.pack();
+        users.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_jButton1continueActionPerformed
+    }//GEN-LAST:event_UserProfileActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         UsersTable utbl = new UsersTable();
@@ -112,6 +178,9 @@ public class AdminDashboard extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(AdminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -122,10 +191,18 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton UserProfile;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton1continue;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton logout;
     // End of variables declaration//GEN-END:variables
 }

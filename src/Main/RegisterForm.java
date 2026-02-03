@@ -138,7 +138,7 @@ public class RegisterForm extends javax.swing.JFrame {
         });
         jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 260, 200, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, -1));
 
         pack();
         setLocationRelativeTo(null);
