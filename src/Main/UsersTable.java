@@ -24,7 +24,7 @@ public class UsersTable extends javax.swing.JFrame {
     }
     void displayUser() {
            config conf = new config();
-           String sql = "SELECT * FROM tbl_accounts";
+           String sql = "SELECT u_id, username, email, type, status FROM tbl_accounts";
            conf.displayUser(sql, table_users);
            
     }      
@@ -64,7 +64,7 @@ public class UsersTable extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table_users);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 500, 340));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 590, 340));
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -111,7 +111,7 @@ public class UsersTable extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -88,7 +88,7 @@ public class RegisterForm extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Username:");
+        jLabel5.setText("Full Name:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 90, -1));
 
         username.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
