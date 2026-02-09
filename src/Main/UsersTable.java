@@ -19,6 +19,7 @@ public class UsersTable extends javax.swing.JFrame {
      */
     public UsersTable() {
         initComponents();
+         table_users.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         displayUser();
         
     }
@@ -48,6 +49,12 @@ public class UsersTable extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jButtonAddUser = new javax.swing.JButton();
+        jButtonUpdateUser = new javax.swing.JButton();
+        jButtonDeleteUser = new javax.swing.JButton();
+        jButtonRefresh = new javax.swing.JButton();
+        jTextFieldsearchbar = new javax.swing.JTextField();
+        jButtonclicksearch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,7 +71,7 @@ public class UsersTable extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table_users);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 590, 340));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 640, 340));
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -107,11 +114,52 @@ public class UsersTable extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 540));
 
+        jButtonAddUser.setText("ADD");
+        jButtonAddUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddUserActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonAddUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, 90, -1));
+
+        jButtonUpdateUser.setText("UPDATE");
+        jButtonUpdateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateUserActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonUpdateUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 100, -1));
+
+        jButtonDeleteUser.setText("DELETE ");
+        jButtonDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteUserActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonDeleteUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 100, 90, -1));
+
+        jButtonRefresh.setText("REFRESH");
+        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefreshActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 120, -1));
+        jPanel1.add(jTextFieldsearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 30, 180, -1));
+
+        jButtonclicksearch.setText("SEARCH");
+        jButtonclicksearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonclicksearchActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonclicksearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 30, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,6 +212,72 @@ public class UsersTable extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logoutActionPerformed
 
+    private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
+        displayUser();
+    }//GEN-LAST:event_jButtonRefreshActionPerformed
+
+    private void jButtonclicksearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonclicksearchActionPerformed
+        String keyword = jTextFieldsearchbar.getText().trim();
+
+    if (keyword.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Enter something to search!");
+        return;
+    }
+
+    config conf = new config();
+    String sql =
+        "SELECT u_id, username, email, type, status FROM tbl_accounts " +
+        "WHERE username LIKE '%" + keyword + "%' " +
+        "OR email LIKE '%" + keyword + "%' " +
+        "OR type LIKE '%" + keyword + "%'";
+
+    conf.displayUser(sql, table_users);
+    }//GEN-LAST:event_jButtonclicksearchActionPerformed
+
+    private void jButtonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddUserActionPerformed
+        UserForm form = new UserForm(this, true); // MODAL
+    form.setVisible(true);
+
+    // AUTO refresh when dialog closes
+    displayUser();
+    }//GEN-LAST:event_jButtonAddUserActionPerformed
+
+    private void jButtonUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateUserActionPerformed
+     JOptionPane.showMessageDialog(this, "Saved successfully!");
+dispose(); // CLOSE DIALOG ONLY
+    }//GEN-LAST:event_jButtonUpdateUserActionPerformed
+
+    private void jButtonDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteUserActionPerformed
+       int row = table_users.getSelectedRow();
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Select a user first!");
+        return;
+    }
+
+    int userId = Integer.parseInt(table_users.getValueAt(row, 0).toString());
+
+    int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to delete this user?",
+        "Confirm Delete",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm != JOptionPane.YES_OPTION) return;
+
+    try {
+        config conf = new config();
+        String sql = "DELETE FROM tbl_accounts WHERE u_id = ?";
+        conf.deleteUser(sql, userId);
+
+        JOptionPane.showMessageDialog(this, "User deleted!");
+        displayUser(); // auto refresh
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+    }//GEN-LAST:event_jButtonDeleteUserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -205,10 +319,16 @@ public class UsersTable extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonAddUser;
+    private javax.swing.JButton jButtonDeleteUser;
+    private javax.swing.JButton jButtonRefresh;
+    private javax.swing.JButton jButtonUpdateUser;
+    private javax.swing.JButton jButtonclicksearch;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextFieldsearchbar;
     private javax.swing.JButton logout;
     private javax.swing.JTable table_users;
     // End of variables declaration//GEN-END:variables

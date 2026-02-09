@@ -69,6 +69,18 @@ public void displayUser(String sql, javax.swing.JTable table) {
         System.out.println("Error displaying data: " + e.getMessage());
     }
 }
+
+    public void updateUser(String sql, String newType, String newStatus, int userId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void deleteUser(String sql, int userId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void insertUser(String sql, String username, String email, String string, String type) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
 
 
