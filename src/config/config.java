@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
 
@@ -23,6 +24,8 @@ public static Connection connectDB() {
         }
         return con;
     }
+
+
 
 public void addRecord(String sql, Object... values) {
     try (Connection conn = connectDB();
@@ -69,19 +72,86 @@ public void displayUser(String sql, javax.swing.JTable table) {
         System.out.println("Error displaying data: " + e.getMessage());
     }
 }
+private String hashPassword(String password) {
+    try {
+        java.security.MessageDigest md = java.security.MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(password.getBytes("UTF-8"));
 
-    public void updateUser(String sql, String newType, String newStatus, int userId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void deleteUser(String sql, int userId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void insertUser(String sql, String username, String email, String string, String type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        StringBuilder hex = new StringBuilder();
+        for (byte b : hash) {
+            hex.append(String.format("%02x", b));
+        }
+        return hex.toString();
+    } catch (Exception e) {
+        return null;
     }
 }
+// =====================
+    // INSERT / UPDATE / DELETE (GENERAL)
+    // =====================
+    public int executeUpdate(String sql, Object... values) {
+        try (Connection con = connectDB();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+
+            for (int i = 0; i < values.length; i++) {
+                pst.setObject(i + 1, values[i]);
+            }
+            return pst.executeUpdate(); // returns affected rows
+
+        } catch (SQLException e) {
+            System.out.println("Execute Error: " + e.getMessage());
+            return 0;
+        }
+    }
+// ADD WITH TRANSACTION
+    // (SQLite safe)
+    // =========================
+    public boolean executeTransaction(String[] sqls, Object[][] values) {
+
+        try (Connection con = connectDB()) {
+            con.setAutoCommit(false);
+
+            for (int i = 0; i < sqls.length; i++) {
+                PreparedStatement pst = con.prepareStatement(sqls[i]);
+
+                for (int j = 0; j < values[i].length; j++) {
+                    pst.setObject(j + 1, values[i][j]);
+                }
+
+                pst.executeUpdate();
+            }
+
+            con.commit();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("Transaction Error: " + e.getMessage());
+            return false;
+        }
+    }
+   
+     // =========================
+    // FETCH SINGLE RECORD
+    // =========================
+    public ResultSet fetch(String sql, Object... values) {
+
+        try {
+            Connection con = connectDB();
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            for (int i = 0; i < values.length; i++) {
+                pst.setObject(i + 1, values[i]);
+            }
+
+            return pst.executeQuery();
+
+        } catch (SQLException e) {
+            System.out.println("Fetch Error: " + e.getMessage());
+            return null;
+        }
+    }
+}
+
 
 
 

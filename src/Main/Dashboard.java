@@ -163,7 +163,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         // ✅ Clear session data
         Session.userId = 0;
-        Session.username = null;
+        Session.fullname = null;
         Session.type = null;
 
         // ✅ Go back to login

@@ -12,7 +12,7 @@ package Main;
 
     public class Session {
     public static int userId;
-    public static String username;
+    public static String fullname;
     public static String email;
     public static String type;
 

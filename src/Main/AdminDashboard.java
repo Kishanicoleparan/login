@@ -8,19 +8,122 @@ package Main;
 
 import java.util.HashSet;
 import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
  * @author Admin
  */
 public class AdminDashboard extends javax.swing.JFrame {
+// Stat labels for dynamic update
+    private JLabel lblTotalReservations;
+    private JLabel lblActiveCustomers;
+    private JLabel lblPendingReservations;
 
-    /**
-     * Creates new form AdminDashboard
-     */
+    private JPanel topPanel;
+    private JPanel centerPanel;
+    private JTable upcomingTable;
     public AdminDashboard() {
-        initComponents();
+        
+        setTitle("Catering Reservation Dashboard");
+        setSize(1000, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        // Initialize the dashboard panels
+        setupDashboard();
+        
     }
+     // Setup dashboard after initComponents()
+    private void setupDashboard() {
+        Container cp = getContentPane();
+
+        // ===== Top Panel: Quick Stats =====
+        JPanel topPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        lblTotalReservations = createStatCard("Total Reservations", "0");
+        lblActiveCustomers = createStatCard("Active Customers", "0");
+        lblPendingReservations = createStatCard("Pending Reservations", "0");
+
+        topPanel.add(wrapCard(lblTotalReservations));
+        topPanel.add(wrapCard(lblActiveCustomers));
+        topPanel.add(wrapCard(lblPendingReservations));
+
+        cp.add(topPanel, BorderLayout.NORTH);
+
+        // ===== Center Panel: Charts =====
+        JPanel centerPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Chart 1: Reservation Trend
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset.addValue(10, "Reservations", "Mon");
+        dataset.addValue(15, "Reservations", "Tue");
+        dataset.addValue(20, "Reservations", "Wed");
+        dataset.addValue(12, "Reservations", "Thu");
+        dataset.addValue(18, "Reservations", "Fri");
+
+        JFreeChart reservationChart = ChartFactory.createLineChart(
+                "Reservations Trend", "Day", "Number", dataset
+        );
+        centerPanel.add(new ChartPanel(reservationChart));
+
+        // Chart 2: Menu Popularity
+        DefaultCategoryDataset menuDataset = new DefaultCategoryDataset();
+        menuDataset.addValue(30, "Orders", "Chicken Adobo");
+        menuDataset.addValue(20, "Orders", "Pasta Carbonara");
+        menuDataset.addValue(25, "Orders", "Fruit Salad");
+        menuDataset.addValue(15, "Orders", "Lechon");
+
+        JFreeChart menuChart = ChartFactory.createBarChart(
+                "Menu Popularity", "Menu", "Orders", menuDataset
+        );
+        centerPanel.add(new ChartPanel(menuChart));
+
+        cp.add(centerPanel, BorderLayout.CENTER);
+
+        // ===== Bottom Panel: Upcoming Reservations Table =====
+        String[] columns = {"Customer", "Event Date", "Guests", "Status"};
+        Object[][] data = {
+                {"Juan Dela Cruz", "2026-02-15", 50, "Confirmed"},
+                {"Maria Santos", "2026-02-16", 30, "Pending"},
+                {"Pedro Reyes", "2026-02-17", 100, "Confirmed"}
+        };
+
+        upcomingTable = new JTable(new DefaultTableModel(data, columns));
+        JScrollPane tablePane = new JScrollPane(upcomingTable);
+        tablePane.setBorder(BorderFactory.createTitledBorder("Upcoming Reservations"));
+
+        cp.add(tablePane, BorderLayout.SOUTH);
+    }
+
+    // Helper: create stat card
+    private JLabel createStatCard(String title, String value) {
+        JLabel label = new JLabel("<html><center>" + title + "<br><h2>" + value + "</h2></center></html>");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setOpaque(true);
+        label.setBackground(new Color(100, 149, 237));
+        label.setForeground(Color.WHITE);
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+        return label;
+    }
+
+    // Wrap label in JPanel for spacing
+    private JPanel wrapCard(JLabel label) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(label, BorderLayout.CENTER);
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        return panel;
+    }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,19 +139,18 @@ public class AdminDashboard extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         UserProfile = new javax.swing.JButton();
         logout = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabelpendingReservations = new javax.swing.JLabel();
+        jLabelvalue1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabeltotalreservations = new javax.swing.JLabel();
+        jLabelvalue2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -85,11 +187,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, -1));
 
-        jButton2.setText("Manage Users");
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 140, -1));
-
         jButton3.setText("Reservations");
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 140, -1));
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 140, -1));
 
         jButton4.setText("Menus");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -97,7 +196,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 140, -1));
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 140, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 130, 120));
@@ -108,7 +207,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 140, -1));
+        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 140, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
@@ -120,22 +219,25 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 410, 90));
 
-        jPanel4.setBackground(new java.awt.Color(0, 51, 102));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/reserved2.png"))); // NOI18N
-        jPanel4.add(jLabel3);
+        jLabelpendingReservations.setText("Pending Reservations");
+        jPanel8.add(jLabelpendingReservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 110, 20));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 90, 80));
+        jLabelvalue1.setText("value");
+        jPanel8.add(jLabelvalue1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 50, 50));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/salary.png"))); // NOI18N
-        jPanel5.add(jLabel5);
+        jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 410, 120, 110));
 
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 100, 80, 80));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/revenue5.png"))); // NOI18N
-        jPanel6.add(jLabel1);
+        jLabeltotalreservations.setText("Total Reservations");
+        jPanel6.add(jLabeltotalreservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 30));
 
-        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, 370, 290));
+        jLabelvalue2.setText("value");
+        jPanel6.add(jLabelvalue2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 30, 30));
+
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, -1, 70));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, -1));
 
@@ -156,7 +258,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
             // ✅ Clear session data
             Session.userId = 0;
-            Session.username = null;
+            Session.fullname = null;
             Session.type = null;
 
             // ✅ Go back to login
@@ -240,21 +342,20 @@ public class AdminDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton UserProfile;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabelpendingReservations;
+    private javax.swing.JLabel jLabeltotalreservations;
+    private javax.swing.JLabel jLabelvalue1;
+    private javax.swing.JLabel jLabelvalue2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JButton logout;
     // End of variables declaration//GEN-END:variables
 }

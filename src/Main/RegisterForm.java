@@ -9,6 +9,7 @@ package Main;
  *
  * @author Admin
  */
+import static Main.Session.fullname;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +39,7 @@ public class RegisterForm extends javax.swing.JFrame {
         Register = new javax.swing.JButton();
         jLabel_Register = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        username = new javax.swing.JTextField();
+        fullname = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
@@ -91,18 +92,18 @@ public class RegisterForm extends javax.swing.JFrame {
         jLabel5.setText("Full Name:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 90, -1));
 
-        username.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        username.addMouseListener(new java.awt.event.MouseAdapter() {
+        fullname.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        fullname.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                usernameMouseClicked(evt);
+                fullnameMouseClicked(evt);
             }
         });
-        username.addActionListener(new java.awt.event.ActionListener() {
+        fullname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
+                fullnameActionPerformed(evt);
             }
         });
-        jPanel1.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, 200, 30));
+        jPanel1.add(fullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, 200, 30));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
@@ -172,23 +173,23 @@ public class RegisterForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel_RegisterMouseClicked
 
-    private void usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usernameMouseClicked
+    private void fullnameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fullnameMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameMouseClicked
+    }//GEN-LAST:event_fullnameMouseClicked
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+    private void fullnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fullnameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
+    }//GEN-LAST:event_fullnameActionPerformed
 
     private void RegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegisterMouseClicked
    
-    String uname = username.getText().trim();
+    String uname = fullname.getText().trim();
     String mail = email.getText().trim();
     String pass = password.getText().trim();
 
     // ===== VALIDATION =====
     if (uname.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Username is required!");
+        JOptionPane.showMessageDialog(this, "Fullname is required!");
         return;
     }
 
@@ -227,7 +228,7 @@ public class RegisterForm extends javax.swing.JFrame {
 
         // ===== INSERT USER AS PENDING =====
         String insertSQL =
-            "INSERT INTO tbl_accounts (username, email, password, type, status) " +
+            "INSERT INTO tbl_accounts (fullname, email, password, type, status) " +
             "VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement pst = con.prepareStatement(insertSQL);
@@ -311,6 +312,7 @@ public class RegisterForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Register;
     private javax.swing.JTextField email;
+    private javax.swing.JTextField fullname;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -319,6 +321,5 @@ public class RegisterForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_Register;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField password;
-    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

@@ -220,7 +220,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     // ✅ SET SESSION DATA HERE
     Session.userId = rs.getInt("u_id");   // MUST match your DB column
-    Session.username = rs.getString("username");
+    Session.fullname = rs.getString("fullname");
     Session.type = rs.getString("type");
 
     JOptionPane.showMessageDialog(this, "Login Successful!");

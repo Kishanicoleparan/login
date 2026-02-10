@@ -25,10 +25,13 @@ public class UsersTable extends javax.swing.JFrame {
     }
     void displayUser() {
            config conf = new config();
-           String sql = "SELECT u_id, username, email, type, status FROM tbl_accounts";
+           String sql = "SELECT u_id, fullname, email, type, status FROM tbl_accounts";
            conf.displayUser(sql, table_users);
            
-    }      
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +53,7 @@ public class UsersTable extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jButtonAddUser = new javax.swing.JButton();
-        jButtonUpdateUser = new javax.swing.JButton();
+        jButtoneEditUser = new javax.swing.JButton();
         jButtonDeleteUser = new javax.swing.JButton();
         jButtonRefresh = new javax.swing.JButton();
         jTextFieldsearchbar = new javax.swing.JTextField();
@@ -115,6 +118,11 @@ public class UsersTable extends javax.swing.JFrame {
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 540));
 
         jButtonAddUser.setText("ADD");
+        jButtonAddUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAddUserMouseClicked(evt);
+            }
+        });
         jButtonAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAddUserActionPerformed(evt);
@@ -122,13 +130,18 @@ public class UsersTable extends javax.swing.JFrame {
         });
         jPanel1.add(jButtonAddUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, 90, -1));
 
-        jButtonUpdateUser.setText("UPDATE");
-        jButtonUpdateUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonUpdateUserActionPerformed(evt);
+        jButtoneEditUser.setText("EDIT");
+        jButtoneEditUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtoneEditUserMouseClicked(evt);
             }
         });
-        jPanel1.add(jButtonUpdateUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 100, -1));
+        jButtoneEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtoneEditUserActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtoneEditUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 100, -1));
 
         jButtonDeleteUser.setText("DELETE ");
         jButtonDeleteUser.addActionListener(new java.awt.event.ActionListener() {
@@ -198,7 +211,7 @@ public class UsersTable extends javax.swing.JFrame {
 
             // ✅ Clear session data
             Session.userId = 0;
-            Session.username = null;
+            Session.fullname = null;
             Session.type = null;
 
             // ✅ Go back to login
@@ -226,8 +239,8 @@ public class UsersTable extends javax.swing.JFrame {
 
     config conf = new config();
     String sql =
-        "SELECT u_id, username, email, type, status FROM tbl_accounts " +
-        "WHERE username LIKE '%" + keyword + "%' " +
+        "SELECT u_id, fullname, email, type, status FROM tbl_accounts " +
+        "WHERE fullname LIKE '%" + keyword + "%' " +
         "OR email LIKE '%" + keyword + "%' " +
         "OR type LIKE '%" + keyword + "%'";
 
@@ -242,20 +255,43 @@ public class UsersTable extends javax.swing.JFrame {
     displayUser();
     }//GEN-LAST:event_jButtonAddUserActionPerformed
 
-    private void jButtonUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateUserActionPerformed
-     JOptionPane.showMessageDialog(this, "Saved successfully!");
-dispose(); // CLOSE DIALOG ONLY
-    }//GEN-LAST:event_jButtonUpdateUserActionPerformed
+    private void jButtoneEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtoneEditUserActionPerformed
+    // Get selected row index
+    int row = table_users.getSelectedRow();
+
+    // If no row is selected, show message and stop
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a user first!");
+        return; // exit the method
+    }
+
+    // Row is selected → get the user ID (u_id)
+    int userId = Integer.parseInt(table_users.getValueAt(row, 0).toString());
+
+    // Open UserForm in EDIT mode
+    UserForm form = new UserForm(this, true);
+    form.setFormMode(userId); // This loads the existing data
+    form.setVisible(true);     // Show the form
+
+    // Refresh table after closing the form
+    displayUser();
+
+       
+    }//GEN-LAST:event_jButtoneEditUserActionPerformed
 
     private void jButtonDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteUserActionPerformed
        int row = table_users.getSelectedRow();
+
+    // 1️⃣ Force user to select first
     if (row == -1) {
-        JOptionPane.showMessageDialog(this, "Select a user first!");
+        JOptionPane.showMessageDialog(this, "Please select a user first!");
         return;
     }
 
+    // 2️⃣ Get selected user ID (u_id)
     int userId = Integer.parseInt(table_users.getValueAt(row, 0).toString());
 
+    // 3️⃣ Confirm delete
     int confirm = JOptionPane.showConfirmDialog(
         this,
         "Are you sure you want to delete this user?",
@@ -263,20 +299,49 @@ dispose(); // CLOSE DIALOG ONLY
         JOptionPane.YES_NO_OPTION
     );
 
-    if (confirm != JOptionPane.YES_OPTION) return;
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
 
+    // 4️⃣ Delete from database
     try {
         config conf = new config();
         String sql = "DELETE FROM tbl_accounts WHERE u_id = ?";
-        conf.deleteUser(sql, userId);
+        int result = conf.executeUpdate(sql, userId);
 
-        JOptionPane.showMessageDialog(this, "User deleted!");
-        displayUser(); // auto refresh
-
+        if (result > 0) {
+            JOptionPane.showMessageDialog(this, "User deleted successfully!");
+            displayUser(); // refresh table
+        } else {
+            JOptionPane.showMessageDialog(this, "Delete failed!");
+        }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, e.getMessage());
     }
     }//GEN-LAST:event_jButtonDeleteUserActionPerformed
+
+    private void jButtonAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddUserMouseClicked
+        UserForm uf = new UserForm(this, true);
+uf.setFormMode(0); // ADD
+uf.setVisible(true);
+
+    }//GEN-LAST:event_jButtonAddUserMouseClicked
+
+    private void jButtoneEditUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtoneEditUserMouseClicked
+        int row = table_users.getSelectedRow();
+
+if (row == -1) {
+    JOptionPane.showMessageDialog(null, "Please select a user first");
+    return;
+}
+
+int id = Integer.parseInt(table_users.getValueAt(row, 0).toString());
+
+UserForm uf = new UserForm(this, true);
+uf.setFormMode(id); // EDIT
+uf.setVisible(true);
+
+    }//GEN-LAST:event_jButtoneEditUserMouseClicked
 
     /**
      * @param args the command line arguments
@@ -322,8 +387,8 @@ dispose(); // CLOSE DIALOG ONLY
     private javax.swing.JButton jButtonAddUser;
     private javax.swing.JButton jButtonDeleteUser;
     private javax.swing.JButton jButtonRefresh;
-    private javax.swing.JButton jButtonUpdateUser;
     private javax.swing.JButton jButtonclicksearch;
+    private javax.swing.JButton jButtoneEditUser;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

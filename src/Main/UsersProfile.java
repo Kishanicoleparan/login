@@ -70,7 +70,7 @@ public class UsersProfile extends javax.swing.JFrame {
         try {
             Connection con = new config.config().connectDB();
 
-            String sql = "SELECT u_id, username, email, type, status " +
+            String sql = "SELECT u_id, fullname, email, type, status " +
                          "FROM tbl_accounts WHERE u_id = ?";
 
             PreparedStatement pst = con.prepareStatement(sql);
@@ -80,7 +80,7 @@ public class UsersProfile extends javax.swing.JFrame {
 
             if (rs.next()) {
                 jLabelId.setText(rs.getString("u_id"));
-                jLabelUsername.setText(rs.getString("username"));
+                jLabelUsername.setText(rs.getString("fullname"));
                 jLabelEmail.setText(rs.getString("email"));
                 jLabelType.setText(rs.getString("type"));
                 jLabelStatus.setText(rs.getString("status"));
@@ -292,7 +292,7 @@ public class UsersProfile extends javax.swing.JFrame {
 
             // ✅ Clear session data
             Session.userId = 0;
-            Session.username = null;
+            Session.fullname = null;
             Session.type = null;
 
             // ✅ Go back to login
@@ -348,26 +348,24 @@ public class UsersProfile extends javax.swing.JFrame {
 
     private void setProfileImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setProfileImageMouseClicked
 
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(this);
+         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select Profile Picture");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
+            "Image files", "jpg", "jpeg", "png", "gif"
+        ));
 
-        File file = chooser.getSelectedFile();
-        if (file == null) return;
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
 
-        try {
-            Connection con = new config.config().connectDB();
-
-            String sql = "UPDATE tbl_accounts SET profile_image=? WHERE u_id=?";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, file.getAbsolutePath());
-            pst.setInt(2, Session.userId);
-            pst.executeUpdate();
-
-            setProfileImage(file.getAbsolutePath());
-
-            con.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            // Scale image to fit JLabel
+            Image img = icon.getImage().getScaledInstance(
+                    setProfileImage.getWidth(),
+                    setProfileImage.getHeight(),
+                    Image.SCALE_SMOOTH
+            );
+            setProfileImage.setIcon(new ImageIcon(img));
         }
 
     }//GEN-LAST:event_setProfileImageMouseClicked
