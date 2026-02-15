@@ -15,7 +15,7 @@ package Main;
     public static String fullname;
     public static String email;
     public static String type;
-
+    private static String  packageId;
   
 }
 

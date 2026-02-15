@@ -5,6 +5,10 @@
  */
 package Main;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +16,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import java.awt.Image;
 import java.io.File;
+import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 /**
  *
  * @author Admin
@@ -48,7 +61,9 @@ public class UsersProfile extends javax.swing.JFrame {
                 System.out.println(file.exists()); // true or false
 
     });
+    
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -92,7 +107,7 @@ public class UsersProfile extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }
-     
+      
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -113,13 +128,12 @@ public class UsersProfile extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabelStatus = new javax.swing.JLabel();
         jpanel = new javax.swing.JPanel();
-        Menus = new javax.swing.JButton();
         Packages = new javax.swing.JButton();
-        Reservations = new javax.swing.JButton();
-        ViewReservations = new javax.swing.JButton();
         profile = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jButtondashboard = new javax.swing.JButton();
+        Reservations = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -200,7 +214,6 @@ public class UsersProfile extends javax.swing.JFrame {
         jPanel3.add(jLabelStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 390, 163, -1));
 
         jpanel.setBackground(new java.awt.Color(51, 51, 51));
-        jpanel.setForeground(new java.awt.Color(102, 102, 102));
         jpanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jpanelMouseClicked(evt);
@@ -208,15 +221,12 @@ public class UsersProfile extends javax.swing.JFrame {
         });
         jpanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Menus.setText("Menus");
-        Menus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MenusActionPerformed(evt);
+        Packages.setText("Packages");
+        Packages.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PackagesMouseClicked(evt);
             }
         });
-        jpanel.add(Menus, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 140, -1));
-
-        Packages.setText("Packages");
         Packages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PackagesActionPerformed(evt);
@@ -224,29 +234,13 @@ public class UsersProfile extends javax.swing.JFrame {
         });
         jpanel.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 140, -1));
 
-        Reservations.setText("Reservations");
-        Reservations.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ReservationsActionPerformed(evt);
-            }
-        });
-        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
-
-        ViewReservations.setText("View Reservations");
-        ViewReservations.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ViewReservationsActionPerformed(evt);
-            }
-        });
-        jpanel.add(ViewReservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 140, -1));
-
         profile.setText("Profile");
         profile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 profileActionPerformed(evt);
             }
         });
-        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
+        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 140, -1));
 
         Logout.setText("Logout");
         Logout.addActionListener(new java.awt.event.ActionListener() {
@@ -254,30 +248,88 @@ public class UsersProfile extends javax.swing.JFrame {
                 LogoutActionPerformed(evt);
             }
         });
-        jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 140, -1));
+        jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
-        jpanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 120));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
+        jpanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, 130, 120));
 
-        jPanel3.add(jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 620));
+        jButtondashboard.setText("Dashboard");
+        jButtondashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtondashboardActionPerformed(evt);
+            }
+        });
+        jpanel.add(jButtondashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 140, -1));
+
+        Reservations.setText("Reservations");
+        Reservations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReservationsActionPerformed(evt);
+            }
+        });
+        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 140, -1));
+
+        jPanel3.add(jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 490));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jpanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpanelMouseClicked
+    private void setProfileImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setProfileImageMouseClicked
+
+         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select Profile Picture");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
+            "Image files", "jpg", "jpeg", "png", "gif"
+        ));
+
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
+
+            // Scale image to fit JLabel
+            Image img = icon.getImage().getScaledInstance(
+                    setProfileImage.getWidth(),
+                    setProfileImage.getHeight(),
+                    Image.SCALE_SMOOTH
+            );
+            setProfileImage.setIcon(new ImageIcon(img));
+        }
+
+    }//GEN-LAST:event_setProfileImageMouseClicked
+
+    private void PackagesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PackagesMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jpanelMouseClicked
+    }//GEN-LAST:event_PackagesMouseClicked
+
+    private void PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PackagesActionPerformed
+        ListPackages lkg = new ListPackages();
+        lkg.setVisible(true);
+        lkg.pack();
+        lkg.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_PackagesActionPerformed
+
+    private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
+        UsersProfile users = new UsersProfile();
+        users.setVisible(true);
+        users.pack();
+        users.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_profileActionPerformed
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
         int choice = JOptionPane.showConfirmDialog(
@@ -306,69 +358,25 @@ public class UsersProfile extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_LogoutActionPerformed
 
-    private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
-        UsersProfile users = new UsersProfile();
-        users.setVisible(true);
-        users.pack();
-        users.setLocationRelativeTo(null);
+    private void jButtondashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtondashboardActionPerformed
+        Dashboard db = new Dashboard();
+        db.setVisible(true);
+        db.pack();
+        db.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_profileActionPerformed
+    }//GEN-LAST:event_jButtondashboardActionPerformed
 
-    private void ViewReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewReservationsActionPerformed
-        ViewReservations vr = new ViewReservations();
-        vr.setVisible(true);
-        vr.pack();
-        vr.setLocationRelativeTo(null);
-        this.dispose();
-    }//GEN-LAST:event_ViewReservationsActionPerformed
+    private void jpanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpanelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jpanelMouseClicked
 
     private void ReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReservationsActionPerformed
-        Reservations rsv = new Reservations();
+        ViewReservationTable rsv = new ViewReservationTable();
         rsv.setVisible(true);
         rsv.pack();
         rsv.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_ReservationsActionPerformed
-
-    private void PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PackagesActionPerformed
-        Packages pack = new Packages();
-        pack.setVisible(true);
-        pack.pack();
-        pack.setLocationRelativeTo(null);
-        this.dispose();
-    }//GEN-LAST:event_PackagesActionPerformed
-
-    private void MenusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenusActionPerformed
-        Menus menu = new Menus();
-        menu.setVisible(true);
-        menu.pack();
-        menu.setLocationRelativeTo(null);
-        this.dispose();
-    }//GEN-LAST:event_MenusActionPerformed
-
-    private void setProfileImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setProfileImageMouseClicked
-
-         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Select Profile Picture");
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
-            "Image files", "jpg", "jpeg", "png", "gif"
-        ));
-
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
-
-            // Scale image to fit JLabel
-            Image img = icon.getImage().getScaledInstance(
-                    setProfileImage.getWidth(),
-                    setProfileImage.getHeight(),
-                    Image.SCALE_SMOOTH
-            );
-            setProfileImage.setIcon(new ImageIcon(img));
-        }
-
-    }//GEN-LAST:event_setProfileImageMouseClicked
 
     /**
      * @param args the command line arguments
@@ -407,18 +415,17 @@ public class UsersProfile extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Logout;
-    private javax.swing.JButton Menus;
     private javax.swing.JButton Packages;
     private javax.swing.JButton Reservations;
-    private javax.swing.JButton ViewReservations;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtondashboard;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelId;
     private javax.swing.JLabel jLabelStatus;

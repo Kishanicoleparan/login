@@ -248,7 +248,7 @@ public class UsersTable extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonclicksearchActionPerformed
 
     private void jButtonAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddUserActionPerformed
-        UserForm form = new UserForm(this, true); // MODAL
+    UserForm form = new UserForm(this, true); // MODAL
     form.setVisible(true);
 
     // AUTO refresh when dialog closes
