@@ -33,6 +33,8 @@ public class AdminDashboard extends javax.swing.JFrame {
          initComponents();
     
    
+
+    jLabelwelcome.setText("Welcome " + Session.fullname); // optional label
         
         setTitle("Catering Reservation Dashboard");
         setSize(1300, 800);
@@ -58,7 +60,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     // Add sidebar back
     jPanel1.add(jPanel2, BorderLayout.WEST);
-    jPanel1.add(jPanel3, BorderLayout.NORTH);
+    jPanel1.add(Jpanel3, BorderLayout.NORTH);
 
     JPanel dashboardArea = new JPanel();
     dashboardArea.setLayout(new BorderLayout());
@@ -210,7 +212,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         jButton4Packages = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jButton5dashboard = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        Jpanel3 = new javax.swing.JPanel();
+        jLabelwelcome = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -277,13 +280,16 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        Jpanel3.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabelwelcome.setText("Welcome");
+        Jpanel3.add(jLabelwelcome);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel6.setText("ADMIN DASHBOARD");
-        jPanel3.add(jLabel6);
+        Jpanel3.add(jLabel6);
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 610, 90));
+        jPanel1.add(Jpanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 540, 90));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, -1));
 
@@ -303,7 +309,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         if (choice == JOptionPane.YES_OPTION) {
 
             // ✅ Clear session data
-            Session.userId = 0;
+            Session.u_id = 0;
             Session.fullname = null;
             Session.type = null;
 
@@ -343,7 +349,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4PackagesActionPerformed
 
     private void jButton5dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5dashboardActionPerformed
-       // Already on dashboard
+      AdminDashboard adm = new AdminDashboard();
+      adm.setVisible(true);
+      this.dispose();
 
     }//GEN-LAST:event_jButton5dashboardActionPerformed
 
@@ -394,6 +402,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Jpanel3;
     private javax.swing.JButton UserProfile;
     private javax.swing.JButton jButton1ViewUsers;
     private javax.swing.JButton jButton3Reservations;
@@ -401,9 +410,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton5dashboard;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabelwelcome;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JButton logout;
     // End of variables declaration//GEN-END:variables
 }

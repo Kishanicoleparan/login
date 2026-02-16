@@ -11,7 +11,7 @@ package Main;
  */
 
     public class Session {
-    public static int userId;
+    public static int u_id;
     public static String fullname;
     public static String email;
     public static String type;

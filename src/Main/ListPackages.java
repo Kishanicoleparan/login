@@ -251,7 +251,7 @@ public class ListPackages extends javax.swing.JFrame {
         if (choice == JOptionPane.YES_OPTION) {
 
             // ✅ Clear session data
-            Session.userId = 0;
+            Session.u_id = 0;
             Session.fullname = null;
             Session.type = null;
 

@@ -248,8 +248,8 @@ jComboBox1.setSelectedIndex(0);
                 jTextFieldcontatc.setText(rs.getString("contact"));
                 jTextAreaaddress.setText(rs.getString("address"));
                 jComboBoxstatus.setSelectedItem(rs.getString("civil_status"));
-                jComboBoxType.setSelectedItem(rs.getString("user_type"));
-                jComboBox1.setSelectedItem(rs.getString("account_status"));
+                jComboBoxType.setSelectedItem(rs.getString("type"));
+                jComboBox1.setSelectedItem(rs.getString("status"));
 
 
                 String sex = rs.getString("sex");
@@ -290,7 +290,7 @@ private void addUser() {
     if (!validateForm()) return;
 
     String sql = "INSERT INTO tbl_accounts "
-            + "(fullname, email, password, sex, contact, civil_status, address, user_type, account_status) "
+            + "(fullname, email, password, sex, contact, civil_status, address, type, status) "
             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     try (Connection con = config.connectDB();
@@ -324,7 +324,7 @@ private void updateUser() {
 
     String sql = "UPDATE tbl_accounts SET "
             + "fullname=?, email=?, password=?, sex=?, contact=?, "
-            + "civil_status=?, address=?, user_type=?, account_status=? "
+            + "civil_status=?, address=?, type=?, status=? "
             + "WHERE u_id=?";
 
     try (Connection con = config.connectDB();

@@ -219,7 +219,7 @@ public class LoginForm extends javax.swing.JFrame {
     if (rs.next()) {
 
     // ✅ SET SESSION DATA HERE
-    Session.userId = rs.getInt("u_id");   // MUST match your DB column
+    Session.u_id = rs.getInt("u_id");   // MUST match your DB column
     Session.fullname = rs.getString("fullname");
     Session.type = rs.getString("type");
 

@@ -21,47 +21,83 @@ public class ViewReservationTable extends javax.swing.JFrame {
    private DefaultTableModel model;
     public ViewReservationTable() {
         initComponents();
-         model = (DefaultTableModel) tableReservations.getModel();
-        loadMyReservations();
-    }
-
-  private void loadMyReservations() {
-        DefaultTableModel model = (DefaultTableModel) tableReservations.getModel();
-        model.setRowCount(0); // clear table first
-
-        String sql = "SELECT r.r_id, p.package_name, r.event_type, r.event_date, "
-                   + "r.event_time, r.num_guests, r.venue, r.status "
-                   + "FROM tbl_reservations r "
-                   + "JOIN tbl_packages p ON r.p_id = p.p_id "
-                   + "WHERE r.u_id = ?"; // only current user
-
-        try (Connection conn = config.connectDB();
-             PreparedStatement pst = conn.prepareStatement(sql)) {
-
-            pst.setInt(1, Session.userId); // current logged-in user
-            ResultSet rs = pst.executeQuery();
-
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                    rs.getInt("r_id"),
-                    rs.getString("package_name"),
-                    rs.getString("event_type"),
-                    rs.getString("event_date"),
-                    rs.getString("event_time"),
-                    rs.getInt("num_guests"),
-                    rs.getString("venue"),
-                    rs.getString("status")
-                });
-            }
-
-            if (model.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(this, "Wala pa kay reservations.");
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+         // ✅ Create model FIRST
+    DefaultTableModel newModel = new DefaultTableModel(
+        new Object[][] {},
+        new String[]{
+            "Reservation ID",
+            "Package",
+            "Event Type",
+            "Event Date",
+            "Event Time",
+            "Guests",
+            "Venue",
+            "Status"
         }
+    );
+
+    tableReservations.setModel(newModel);
+
+    // ✅ NOW assign it
+    model = newModel;
+
+    loadMyReservations();
     }
+
+ private void loadMyReservations() {
+
+    if (Session.u_id == 0) {
+        JOptionPane.showMessageDialog(this, "User not logged in!");
+        return;
+    }
+
+    model.setRowCount(0);
+
+    String sql = "SELECT r.r_id, p.package_name, r.event_type, r.event_date, "
+               + "r.event_time, r.num_guests, r.venue, r.status "
+               + "FROM tbl_reservations r "
+               + "JOIN tbl_packages p ON r.p_id = p.p_id "
+               + "WHERE r.u_id = ?";
+
+    try (Connection conn = config.connectDB();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
+
+        pst.setInt(1, Session.u_id);
+        ResultSet rs = pst.executeQuery();
+        System.out.println("Executing query for user: " + Session.u_id);
+
+
+        while (rs.next()) {
+            System.out.println("DATA FOUND!");
+            model.addRow(new Object[]{
+                rs.getInt("r_id"),
+                rs.getString("package_name"),
+                rs.getString("event_type"),
+                rs.getString("event_date"),
+                rs.getString("event_time"),
+                rs.getInt("num_guests"),
+                rs.getString("venue"),
+                rs.getString("status")
+                    
+            });
+            System.out.println("Logged User ID: " + Session.u_id);
+
+             System.out.println("ADDING ROW");
+              System.out.println("LOAD METHOD CALLED");
+        }
+        
+      
+
+
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Wala pa kay reservations.");
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+}
+ 
 
 
     @SuppressWarnings("unchecked")
@@ -153,7 +189,7 @@ public class ViewReservationTable extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableReservations);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, -1, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, -1, 370));
 
         jButtoncancelreservation.setText("Cancel Reservation");
         jPanel1.add(jButtoncancelreservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, -1, -1));
@@ -208,7 +244,7 @@ public class ViewReservationTable extends javax.swing.JFrame {
         if (choice == JOptionPane.YES_OPTION) {
 
             // ✅ Clear session data
-            Session.userId = 0;
+            Session.u_id = 0;
             Session.fullname = null;
             Session.type = null;
 

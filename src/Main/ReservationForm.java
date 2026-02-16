@@ -194,7 +194,7 @@ public class ReservationForm extends javax.swing.JDialog {
              "(u_id, p_id, event_type, event_time, event_date, num_guests, venue, special_request, status) " +
              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'PENDING')")) {
 
-        pst.setInt(1, Session.userId);
+        pst.setInt(1, Session.u_id);
         pst.setInt(2, packageId);
         pst.setString(3, eventType);
         pst.setString(4, eventTime);

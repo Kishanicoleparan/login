@@ -48,10 +48,10 @@ public class UsersTable extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         UserProfile = new javax.swing.JButton();
         logout = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jButton5dashboard = new javax.swing.JButton();
+        jButton4Packages = new javax.swing.JButton();
+        jButton3Reservations = new javax.swing.JButton();
         jButtonAddUser = new javax.swing.JButton();
         jButtoneEditUser = new javax.swing.JButton();
         jButtonDeleteUser = new javax.swing.JButton();
@@ -103,19 +103,34 @@ public class UsersTable extends javax.swing.JFrame {
         });
         jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 410, 140, -1));
 
-        jButton2.setText("Manage Users");
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 140, -1));
-
-        jButton3.setText("Reservations");
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 140, -1));
-
-        jButton4.setText("Menus");
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 140, -1));
-
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 120));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 540));
+        jButton5dashboard.setText("Dashboard");
+        jButton5dashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5dashboardActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 140, -1));
+
+        jButton4Packages.setText("Packages");
+        jButton4Packages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4PackagesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 140, -1));
+
+        jButton3Reservations.setText("Reservations");
+        jButton3Reservations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ReservationsActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 140, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 510));
 
         jButtonAddUser.setText("ADD");
         jButtonAddUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -210,7 +225,7 @@ public class UsersTable extends javax.swing.JFrame {
         if (choice == JOptionPane.YES_OPTION) {
 
             // ✅ Clear session data
-            Session.userId = 0;
+            Session.u_id = 0;
             Session.fullname = null;
             Session.type = null;
 
@@ -343,6 +358,26 @@ uf.setVisible(true);
 
     }//GEN-LAST:event_jButtoneEditUserMouseClicked
 
+    private void jButton5dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5dashboardActionPerformed
+       
+    }//GEN-LAST:event_jButton5dashboardActionPerformed
+
+    private void jButton4PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4PackagesActionPerformed
+        PackagesTable pg = new PackagesTable();
+        pg.setVisible(true);
+        pg.pack();
+        pg.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jButton4PackagesActionPerformed
+
+    private void jButton3ReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ReservationsActionPerformed
+        ReservationsTable rf = new ReservationsTable();
+        rf.setVisible(true);
+        rf.pack();
+        rf.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ReservationsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -381,9 +416,9 @@ uf.setVisible(true);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton UserProfile;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton3Reservations;
+    private javax.swing.JButton jButton4Packages;
+    private javax.swing.JButton jButton5dashboard;
     private javax.swing.JButton jButtonAddUser;
     private javax.swing.JButton jButtonDeleteUser;
     private javax.swing.JButton jButtonRefresh;

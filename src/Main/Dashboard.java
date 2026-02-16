@@ -27,6 +27,9 @@ public class Dashboard extends javax.swing.JFrame {
 
     public Dashboard() {
         initComponents();
+   
+
+    lblWelcome.setText("Welcome " + Session.fullname); // optional label
         setTitle("Customer Dashboard");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -110,7 +113,7 @@ public class Dashboard extends javax.swing.JFrame {
             // 2️⃣ Active Reservations
             String activeReservationsQuery = "SELECT COUNT(*) FROM tbl_reservations WHERE u_id = ?";
             java.sql.PreparedStatement pst2 = conn.prepareStatement(activeReservationsQuery);
-            pst2.setInt(1, Session.userId); // current logged-in customer
+            pst2.setInt(1, Session.u_id); // current logged-in customer
             java.sql.ResultSet rs2 = pst2.executeQuery();
             if (rs2.next()) {
                 lblActiveReservations.setText("<html><center>Active Reservations<br><h2>" + rs2.getInt(1) + "</h2></center></html>");
@@ -119,7 +122,7 @@ public class Dashboard extends javax.swing.JFrame {
             // 3️⃣ Pending Reservations
             String pendingQuery = "SELECT COUNT(*) FROM tbl_reservations WHERE u_id = ? AND status='PENDING'";
             java.sql.PreparedStatement pst3 = conn.prepareStatement(pendingQuery);
-            pst3.setInt(1, Session.userId);
+            pst3.setInt(1, Session.u_id);
             java.sql.ResultSet rs3 = pst3.executeQuery();
             if (rs3.next()) {
                 lblPendingReservations.setText("<html><center>Pending Reservations<br><h2>" + rs3.getInt(1) + "</h2></center></html>");
@@ -133,7 +136,7 @@ public class Dashboard extends javax.swing.JFrame {
                                 "FROM tbl_reservations r JOIN tbl_packages p ON r.r_id = p.p_id " +
                                 "WHERE r.u_id = ? ORDER BY r.event_date ASC LIMIT 5";
             java.sql.PreparedStatement pst4 = conn.prepareStatement(tableQuery);
-            pst4.setInt(1, Session.userId);
+            pst4.setInt(1, Session.u_id);
             java.sql.ResultSet rs4 = pst4.executeQuery();
 
             while (rs4.next()) {
@@ -179,6 +182,7 @@ public class Dashboard extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        lblWelcome = new javax.swing.JLabel();
         jPanelContent = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -260,7 +264,10 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel6.setText("CUSTOMER DASHBOARD");
         jPanel3.add(jLabel6);
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 500, 70));
+        lblWelcome.setText("WELCOME");
+        jPanel3.add(lblWelcome);
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 500, 80));
         jPanel2.add(jPanelContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 460, 370));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 490));
@@ -291,7 +298,7 @@ public class Dashboard extends javax.swing.JFrame {
     if (choice == JOptionPane.YES_OPTION) {
 
         // ✅ Clear session data
-        Session.userId = 0;
+        Session.u_id = 0;
         Session.fullname = null;
         Session.type = null;
 
@@ -393,6 +400,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelContent;
     private javax.swing.JPanel jpanel;
+    private javax.swing.JLabel lblWelcome;
     private javax.swing.JButton profile;
     // End of variables declaration//GEN-END:variables
 }

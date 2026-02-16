@@ -75,7 +75,7 @@ public class UsersProfile extends javax.swing.JFrame {
     private void loadUserProfile() {
 
         // 🔐 Security check
-        if (Session.userId == 0) {
+        if (Session.u_id == 0) {
             JOptionPane.showMessageDialog(this, "Please login first.");
             new LoginForm().setVisible(true);
             this.dispose();
@@ -89,7 +89,7 @@ public class UsersProfile extends javax.swing.JFrame {
                          "FROM tbl_accounts WHERE u_id = ?";
 
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, Session.userId);
+            pst.setInt(1, Session.u_id);
 
             ResultSet rs = pst.executeQuery();
 
@@ -343,7 +343,7 @@ public class UsersProfile extends javax.swing.JFrame {
         if (choice == JOptionPane.YES_OPTION) {
 
             // ✅ Clear session data
-            Session.userId = 0;
+            Session.u_id = 0;
             Session.fullname = null;
             Session.type = null;
 
