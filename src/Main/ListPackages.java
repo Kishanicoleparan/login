@@ -32,7 +32,7 @@ public class ListPackages extends javax.swing.JFrame {
         displayPackage();
          table_packages.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
          setTitle("Packages");
-        setSize(1000, 600);
+      
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -91,14 +91,16 @@ public class ListPackages extends javax.swing.JFrame {
         jpanel = new javax.swing.JPanel();
         Packages = new javax.swing.JButton();
         Reservations = new javax.swing.JButton();
-        profile = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jButtondashboard = new javax.swing.JButton();
+        profile = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_packages = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jButtonreserved = new javax.swing.JButton();
         jButtonviewReservation = new javax.swing.JButton();
+        jButtonsearch = new javax.swing.JButton();
+        jTextFieldbar = new javax.swing.JTextField();
 
         jMenu1.setText("jMenu1");
 
@@ -112,7 +114,7 @@ public class ListPackages extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpanel.setBackground(new java.awt.Color(51, 51, 51));
@@ -144,14 +146,6 @@ public class ListPackages extends javax.swing.JFrame {
         });
         jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, -1));
 
-        profile.setText("Profile");
-        profile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profileActionPerformed(evt);
-            }
-        });
-        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 140, -1));
-
         Logout.setText("Logout");
         Logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,7 +155,7 @@ public class ListPackages extends javax.swing.JFrame {
         jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
-        jpanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 120));
+        jpanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 120, 90));
 
         jButtondashboard.setText("Dashboard");
         jButtondashboard.addActionListener(new java.awt.event.ActionListener() {
@@ -170,6 +164,14 @@ public class ListPackages extends javax.swing.JFrame {
             }
         });
         jpanel.add(jButtondashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 140, -1));
+
+        profile.setText("Profile");
+        profile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileActionPerformed(evt);
+            }
+        });
+        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 140, -1));
 
         jPanel1.add(jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 510));
 
@@ -185,16 +187,30 @@ public class ListPackages extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, -1, 190));
 
-        jButton1.setText("RESERVED");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonreserved.setText("Reserved");
+        jButtonreserved.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonreservedActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, -1, -1));
+        jPanel1.add(jButtonreserved, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, -1, -1));
 
         jButtonviewReservation.setText("View Reservations");
-        jPanel1.add(jButtonviewReservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, -1, -1));
+        jButtonviewReservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonviewReservationActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonviewReservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, -1, -1));
+
+        jButtonsearch.setText("Search");
+        jButtonsearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonsearchActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 20, -1, -1));
+        jPanel1.add(jTextFieldbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 20, 130, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -230,14 +246,6 @@ public class ListPackages extends javax.swing.JFrame {
     rsv.setLocationRelativeTo(null);
     this.dispose();        
     }//GEN-LAST:event_ReservationsActionPerformed
-
-    private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
-        UsersProfile users = new UsersProfile();
-        users.setVisible(true);
-        users.pack();
-        users.setLocationRelativeTo(null);
-        this.dispose();
-    }//GEN-LAST:event_profileActionPerformed
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
         int choice = JOptionPane.showConfirmDialog(
@@ -278,7 +286,7 @@ public class ListPackages extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jpanelMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonreservedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonreservedActionPerformed
       int row = table_packages.getSelectedRow();
 
 if (row == -1) {
@@ -293,7 +301,44 @@ rf.setVisible(true);
 
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonreservedActionPerformed
+
+    private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
+        UsersProfile pf = new UsersProfile();
+        pf.setVisible(true);
+        pf.pack();
+        pf.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_profileActionPerformed
+
+    private void jButtonviewReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonviewReservationActionPerformed
+            // Open ViewReservationTable for current user
+    ViewReservationTable rsv = new ViewReservationTable();
+    rsv.setVisible(true);
+    rsv.pack();
+    rsv.setLocationRelativeTo(null);
+    this.dispose();       
+    }//GEN-LAST:event_jButtonviewReservationActionPerformed
+
+    private void jButtonsearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonsearchActionPerformed
+         String keyword = jTextFieldbar.getText().trim();
+
+    if (keyword.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Enter something to search!");
+        return;
+    }
+
+    config conf = new config();
+    String sql =
+    "SELECT p_id, package_name, price, pax, description, status FROM tbl_packages " +
+    "WHERE package_name LIKE '%" + keyword + "%' " +
+    "OR price LIKE '%" + keyword + "%' " +
+    "OR pax LIKE '%" + keyword + "%' " +  // NEW
+    "OR description LIKE '%" + keyword + "%'";
+
+
+    conf.displayUser(sql, table_packages);
+    }//GEN-LAST:event_jButtonsearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -334,8 +379,9 @@ rf.setVisible(true);
     private javax.swing.JButton Logout;
     private javax.swing.JButton Packages;
     private javax.swing.JButton Reservations;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtondashboard;
+    private javax.swing.JButton jButtonreserved;
+    private javax.swing.JButton jButtonsearch;
     private javax.swing.JButton jButtonviewReservation;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
@@ -343,6 +389,7 @@ rf.setVisible(true);
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextFieldbar;
     private javax.swing.JPanel jpanel;
     private java.awt.Menu menu1;
     private java.awt.Menu menu2;

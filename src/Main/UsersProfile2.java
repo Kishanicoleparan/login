@@ -50,6 +50,7 @@ public class UsersProfile2 extends javax.swing.JFrame {
     });
     }
 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,9 +58,9 @@ public class UsersProfile2 extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
-    private void loadUserProfile() {
-
-        // 🔐 Security check
+   private void loadUserProfile() { 
+       
+         // 🔐 Security check
         if (Session.u_id == 0) {
             JOptionPane.showMessageDialog(this, "Please login first.");
             new LoginForm().setVisible(true);
@@ -77,20 +78,18 @@ public class UsersProfile2 extends javax.swing.JFrame {
             pst.setInt(1, Session.u_id);
 
             ResultSet rs = pst.executeQuery();
-
-            if (rs.next()) {
-                jLabelId.setText(rs.getString("u_id"));
-                jLabelUsername.setText(rs.getString("fullname"));
-                jLabelEmail.setText(rs.getString("email"));
-                jLabelType.setText(rs.getString("type"));
-                jLabelStatus.setText(rs.getString("status"));
-            }
-
-            con.close();
-
-        } catch (Exception e) {
+        if (rs.next()){ 
+        jLabelID.setText(rs.getString("u_id")); 
+        jLabelfullname.setText(rs.getString("fullname")); 
+        jLabelemail.setText(rs.getString("email")); 
+        jLabeltype.setText(rs.getString("type")); 
+        jLabelstatus.setText(rs.getString("status"));
+        } 
+        con.close();
+        } catch (Exception e){ 
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
+    
     }
      
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -102,23 +101,24 @@ public class UsersProfile2 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         setProfileImage = new javax.swing.JLabel();
         jLabelTitle = new javax.swing.JLabel();
-        jLabelId = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabelUsername = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabelEmail = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabelType = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabelStatus = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         UserProfile = new javax.swing.JButton();
         logout = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jButton5dashboard = new javax.swing.JButton();
+        jButton4Packages = new javax.swing.JButton();
+        jButton3Reservations = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jLabelfullname = new javax.swing.JLabel();
+        jLabelID = new javax.swing.JLabel();
+        jLabelemail = new javax.swing.JLabel();
+        jLabeltype = new javax.swing.JLabel();
+        jLabelstatus = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
@@ -134,64 +134,39 @@ public class UsersProfile2 extends javax.swing.JFrame {
 
         setProfileImage.setBackground(new java.awt.Color(255, 255, 255));
         setProfileImage.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        setProfileImage.setText("Put Profile Picture here");
+        setProfileImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
         setProfileImage.setOpaque(true);
         setProfileImage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setProfileImageMouseClicked(evt);
             }
         });
-        jPanel3.add(setProfileImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, 140, 100));
+        jPanel3.add(setProfileImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 130, 130));
 
-        jLabelTitle.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabelTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabelTitle.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitle.setText("User Profile");
-        jPanel3.add(jLabelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 90, 20));
-
-        jLabelId.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelId.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelId.setText("ID");
-        jPanel3.add(jLabelId, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, 167, -1));
+        jPanel3.add(jLabelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 140, 20));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("User ID:");
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, -1, -1));
 
-        jLabelUsername.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelUsername.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelUsername.setText("USERNAME");
-        jPanel3.add(jLabelUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 260, 167, -1));
-
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Email:");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, -1, -1));
 
-        jLabelEmail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelEmail.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelEmail.setText("email");
-        jPanel3.add(jLabelEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, 175, -1));
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Type:");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 340, -1, -1));
-
-        jLabelType.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelType.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelType.setText("type");
-        jPanel3.add(jLabelType, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 340, 163, -1));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 350, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Status:");
-        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, -1, -1));
-
-        jLabelStatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelStatus.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelStatus.setText("status");
-        jPanel3.add(jLabelStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 390, 163, -1));
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 400, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -203,7 +178,7 @@ public class UsersProfile2 extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 140, -1));
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, -1));
 
         UserProfile.setBackground(new java.awt.Color(255, 255, 255));
         UserProfile.setText("Profile");
@@ -212,7 +187,7 @@ public class UsersProfile2 extends javax.swing.JFrame {
                 UserProfileActionPerformed(evt);
             }
         });
-        jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
+        jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 140, -1));
 
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
@@ -221,9 +196,6 @@ public class UsersProfile2 extends javax.swing.JFrame {
             }
         });
         jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, -1));
-
-        jButton5.setText("Reservations");
-        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 140, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 130, 120));
@@ -234,7 +206,23 @@ public class UsersProfile2 extends javax.swing.JFrame {
                 jButton5dashboardActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 140, -1));
+        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 140, -1));
+
+        jButton4Packages.setText("Packages");
+        jButton4Packages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4PackagesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 140, -1));
+
+        jButton3Reservations.setText("Reservations");
+        jButton3Reservations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ReservationsActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, -1));
 
         jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
@@ -243,11 +231,36 @@ public class UsersProfile2 extends javax.swing.JFrame {
         jLabel6.setText("Full Name:");
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, -1, -1));
 
+        jLabelfullname.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabelfullname.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelfullname.setText("jLabel5");
+        jPanel3.add(jLabelfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 260, -1, -1));
+
+        jLabelID.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabelID.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelID.setText("jLabel5");
+        jPanel3.add(jLabelID, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, -1, -1));
+
+        jLabelemail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabelemail.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelemail.setText("jLabel5");
+        jPanel3.add(jLabelemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, -1, -1));
+
+        jLabeltype.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabeltype.setForeground(new java.awt.Color(255, 255, 255));
+        jLabeltype.setText("jLabel5");
+        jPanel3.add(jLabeltype, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 350, -1, 20));
+
+        jLabelstatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabelstatus.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelstatus.setText("jLabel5");
+        jPanel3.add(jLabelstatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 400, -1, 20));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,6 +341,22 @@ public class UsersProfile2 extends javax.swing.JFrame {
         // Already on dashboard
     }//GEN-LAST:event_jButton5dashboardActionPerformed
 
+    private void jButton4PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4PackagesActionPerformed
+        PackagesTable pg = new PackagesTable();
+        pg.setVisible(true);
+        pg.pack();
+        pg.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jButton4PackagesActionPerformed
+
+    private void jButton3ReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ReservationsActionPerformed
+        ReservationsTable rf = new ReservationsTable();
+        rf.setVisible(true);
+        rf.pack();
+        rf.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ReservationsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -369,7 +398,8 @@ public class UsersProfile2 extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton3Reservations;
+    private javax.swing.JButton jButton4Packages;
     private javax.swing.JButton jButton5dashboard;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -377,12 +407,12 @@ public class UsersProfile2 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabelEmail;
-    private javax.swing.JLabel jLabelId;
-    private javax.swing.JLabel jLabelStatus;
+    private javax.swing.JLabel jLabelID;
     private javax.swing.JLabel jLabelTitle;
-    private javax.swing.JLabel jLabelType;
-    private javax.swing.JLabel jLabelUsername;
+    private javax.swing.JLabel jLabelemail;
+    private javax.swing.JLabel jLabelfullname;
+    private javax.swing.JLabel jLabelstatus;
+    private javax.swing.JLabel jLabeltype;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

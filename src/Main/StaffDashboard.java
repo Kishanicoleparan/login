@@ -5,20 +5,48 @@
  */
 package Main;
 
+import com.toedter.calendar.JDateChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
  * @author Admin
  */
 public class StaffDashboard extends javax.swing.JFrame {
-
-    /**
-     * Creates new form StaffDashboard
-     */
+private JLabel lblTotalReservations;
+    private JLabel lblPendingReservations;
+    private JTable reservationTable;
+    private JDateChooser dateFilter;
+    private DefaultCategoryDataset dataset;
+    private JFreeChart chart;
     public StaffDashboard() {
         initComponents();
+        // ✅ Check login session
+        if (Session.u_id == 0 || !"STAFF".equalsIgnoreCase(Session.type)) {
+            JOptionPane.showMessageDialog(this, "Please login first as STAFF!");
+            LoginForm login = new LoginForm();
+            login.setVisible(true);
+            login.pack();
+            login.setLocationRelativeTo(null);
+            this.dispose();
+            return;
+        }
+
+        setTitle("Staff Dashboard - Catering");
+        setSize(900, 650);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        jLabelWelcome.setText("Welcome " + Session.fullname);
+
+       
     }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,11 +63,17 @@ public class StaffDashboard extends javax.swing.JFrame {
         Logout = new javax.swing.JButton();
         profile = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jButton4Packages = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jLabelWelcome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -72,32 +106,37 @@ public class StaffDashboard extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 140, -1));
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, -1));
 
-        jButton4.setText("Menus");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButton4Packages.setBackground(new java.awt.Color(0, 204, 204));
+        jButton4Packages.setText("Packages");
+        jButton4Packages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButton4PackagesActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 140, -1));
+        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 140, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 496));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 540));
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel6.setText("STAFF DASHBOARD");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(46, 5, -1, -1));
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, -1, -1));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 400, 70));
+        jLabelWelcome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabelWelcome.setText("jLabel2");
+        jPanel3.add(jLabelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 510, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,9 +185,31 @@ public class StaffDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void jButton4PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4PackagesActionPerformed
+        PackagesTable pg = new PackagesTable();
+        pg.setVisible(true);
+        pg.pack();
+        pg.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jButton4PackagesActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+          // 🔐 CHECK LOGIN FIRST
+    if (Session.u_id == 0) {
+
+        JOptionPane.showMessageDialog(this, "Please login first!");
+
+        // Open login form
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
+
+        // Close this dashboard immediately
+        this.dispose();
+        return;
+    }
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -188,9 +249,10 @@ public class StaffDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Logout;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton4Packages;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabelWelcome;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

@@ -60,11 +60,9 @@ public class ReservationForm extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        eventdate = new javax.swing.JTextField();
         jButtonReserve = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextFieldguets = new javax.swing.JTextField();
         jTextFieldpackage_name = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldprice = new javax.swing.JTextField();
@@ -81,145 +79,190 @@ public class ReservationForm extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaRequest = new javax.swing.JTextArea();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jTextFieldguets = new javax.swing.JSpinner();
+        jLabel10 = new javax.swing.JLabel();
+        jTextFieldphone = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jSpinnerdownpayment = new javax.swing.JSpinner();
+        jLabel12 = new javax.swing.JLabel();
+        jComboBoxpayment_method = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(eventdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, 130, -1));
 
+        jButtonReserve.setBackground(new java.awt.Color(0, 204, 204));
+        jButtonReserve.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButtonReserve.setText("RESERVE");
         jButtonReserve.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonReserveActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonReserve, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 410, -1, -1));
+        jPanel1.add(jButtonReserve, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 560, 200, -1));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Event Type:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, 20));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, -1, 20));
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Special Request:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, -1, -1));
-
-        jTextFieldguets.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldguetsActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jTextFieldguets, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 130, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 430, -1, -1));
 
         jTextFieldpackage_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldpackage_nameActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldpackage_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, 120, -1));
+        jPanel1.add(jTextFieldpackage_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 160, -1));
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Description:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, -1, -1));
-        jPanel1.add(jTextFieldprice, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 120, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
+        jPanel1.add(jTextFieldprice, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 160, -1));
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Package Name:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         jTextAreadescription.setColumns(20);
         jTextAreadescription.setRows(5);
         jScrollPane1.setViewportView(jTextAreadescription);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 140, 80));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 160, 150));
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Price:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, -1, 20));
-        jPanel1.add(jTextFieldvenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 130, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, 20));
+        jPanel1.add(jTextFieldvenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 150, 160, -1));
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("Guests:");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 90, -1, -1));
 
         jComboBoxEventType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Wedding", "Fiesta", "Birthday", "Corporate", " " }));
-        jPanel1.add(jComboBoxEventType, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, 140, -1));
+        jPanel1.add(jComboBoxEventType, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 370, 170, -1));
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Event Time:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, -1, 20));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, -1, 20));
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("Event Date:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, -1, 20));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, -1, 20));
 
         jTextFieldTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldTimeActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 130, -1));
+        jPanel1.add(jTextFieldTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 430, 170, -1));
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setText("Venue:");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, -1, -1));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, -1, -1));
 
         jTextAreaRequest.setColumns(20);
         jTextAreaRequest.setRows(5);
         jScrollPane2.setViewportView(jTextAreaRequest);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, 140, 80));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, 170, 110));
+        jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 480, 170, -1));
+        jPanel1.add(jTextFieldguets, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 90, 160, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel10.setText("Reservation Form ");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
+        jPanel1.add(jTextFieldphone, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 220, 160, -1));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel11.setText("Phone Number:");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 220, -1, -1));
+        jPanel1.add(jSpinnerdownpayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 300, 160, -1));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel12.setText("DownPayment:");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 300, -1, -1));
+
+        jComboBoxpayment_method.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pay Maya", "Gcash", " " }));
+        jPanel1.add(jComboBoxpayment_method, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 370, 160, -1));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel13.setText("Payment Method:");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 370, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 711, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonReserveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReserveActionPerformed
-       String eventType = jComboBoxEventType.getSelectedItem().toString();
+        // Collect input values
+    String eventType = jComboBoxEventType.getSelectedItem().toString();
     String eventTime = jTextFieldTime.getText().trim();
-    String eventDate = eventdate.getText().trim();
-    String guests = jTextFieldguets.getText().trim();
+    int guests = (Integer) jTextFieldguets.getValue(); // Spinner value
     String venue = jTextFieldvenue.getText().trim();
     String specialRequest = jTextAreaRequest.getText().trim();
+    String phone = jTextFieldphone.getText().trim();
+    int downpayment = (Integer) jSpinnerdownpayment.getValue(); // Spinner value
+    String paymentMethod = jComboBoxpayment_method.getSelectedItem().toString();
 
-    if (eventDate.isEmpty() || eventTime.isEmpty() || guests.isEmpty() || venue.isEmpty()) {
+    // Validate required fields
+    if (jDateChooser1.getDate() == null || eventTime.isEmpty() || venue.isEmpty() || phone.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Please fill all required fields!");
         return;
     }
 
     try (Connection conn = config.connectDB();
          PreparedStatement pst = conn.prepareStatement(
-             "INSERT INTO tbl_reservations " +
-             "(u_id, p_id, event_type, event_time, event_date, num_guests, venue, special_request, status) " +
-             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'PENDING')")) {
+                 "INSERT INTO tbl_reservations " +
+                 "(u_id, p_id, event_type, event_time, event_date, num_guests, venue, special_request, phone, downpayment, payment_method, status) " +
+                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDING')")) {
 
+        // Format date
+        java.util.Date selectedDate = jDateChooser1.getDate();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = sdf.format(selectedDate);
+
+        // Set parameters
         pst.setInt(1, Session.u_id);
         pst.setInt(2, packageId);
         pst.setString(3, eventType);
         pst.setString(4, eventTime);
-        pst.setString(5, eventDate);
-        pst.setInt(6, Integer.parseInt(guests));
+        pst.setString(5, formattedDate);
+        pst.setInt(6, guests);
         pst.setString(7, venue);
         pst.setString(8, specialRequest);
+        pst.setString(9, phone);
+        pst.setInt(10, downpayment);
+        pst.setString(11, paymentMethod);
 
+        // Execute insertion
         pst.executeUpdate();
 
-        JOptionPane.showMessageDialog(this, "Reservation submitted!");
-       this.dispose();
-new ViewReservationTable().setVisible(true);
+        JOptionPane.showMessageDialog(this, "Reservation submitted successfully!");
+        this.dispose();
+        new ViewReservationTable().setVisible(true);
 
-
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Guests must be a number!");
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
     }
+    
     }//GEN-LAST:event_jButtonReserveActionPerformed
-
-    private void jTextFieldguetsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldguetsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldguetsActionPerformed
 
     private void jTextFieldpackage_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldpackage_nameActionPerformed
         // TODO add your handling code here:
@@ -272,10 +315,15 @@ new ViewReservationTable().setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField eventdate;
     private javax.swing.JButton jButtonReserve;
     private javax.swing.JComboBox<String> jComboBoxEventType;
+    private javax.swing.JComboBox<String> jComboBoxpayment_method;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -287,11 +335,13 @@ new ViewReservationTable().setVisible(true);
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinnerdownpayment;
     private javax.swing.JTextArea jTextAreaRequest;
     private javax.swing.JTextArea jTextAreadescription;
     private javax.swing.JTextField jTextFieldTime;
-    private javax.swing.JTextField jTextFieldguets;
+    private javax.swing.JSpinner jTextFieldguets;
     private javax.swing.JTextField jTextFieldpackage_name;
+    private javax.swing.JTextField jTextFieldphone;
     private javax.swing.JTextField jTextFieldprice;
     private javax.swing.JTextField jTextFieldvenue;
     // End of variables declaration//GEN-END:variables

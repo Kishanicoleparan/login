@@ -212,8 +212,8 @@ public class RegisterForm extends javax.swing.JFrame {
     String hashedPass = hashPassword(pass);
 
     try {
-        config.config conDB = new config.config();
-        Connection con = conDB.connectDB();
+        config.config connectDB = new config.config();
+        Connection con = connectDB.connectDB();
 
         // ===== CHECK EMAIL EXISTS =====
         String checkSQL = "SELECT * FROM tbl_accounts WHERE email = ?";

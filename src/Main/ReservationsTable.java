@@ -8,7 +8,10 @@ package Main;
 import config.config;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,24 +30,27 @@ public class ReservationsTable extends javax.swing.JFrame {
         jButtonreject.addActionListener(e -> updateReservationStatus("REJECTED"));
         jButtondelete.addActionListener(e -> deleteReservation());
         jButtonsearch.addActionListener(e -> searchReservation());
-        jButtonrefresh.addActionListener(e -> {
-    jTextFieldsearchbar.setText("");
-    displayReservations();
-});
+        jTextFieldsearchbar.setText("");
+        jButtonrefresh.addActionListener(e -> refreshTable()); {
+        
+
+   
+}
 
 
 
 
     }
-     void displayReservations() {
+   
+
+    void displayReservations() {
     config conf = new config();
 
-    String sql = "SELECT r_id, u_id, event_type, event_date, event_time, " +
-                 "venue, num_guests, status, special_request " +
-                 "FROM tbl_reservations";
+   String sql = "SELECT r_id, u_id, event_type, event_date, event_time, " + "venue, num_guests, status, special_request, phone, downpayment, payment_method " + "FROM tbl_reservations";
 
     conf.displayUser(sql, table_reservations);
 }
+
      private void updateReservationStatus(String status) {
     int row = table_reservations.getSelectedRow();
 
@@ -117,15 +123,59 @@ public class ReservationsTable extends javax.swing.JFrame {
         return;
     }
 
-    config conf = new config();
-
     String sql = "SELECT r_id, u_id, event_type, event_date, event_time, " +
-                 "venue, num_guests, status, special_request " +
-                 "FROM tbl_reservations WHERE venue LIKE '%" + keyword + "%' " +
-                 "OR status LIKE '%" + keyword + "%'";
+                 "venue, num_guests, status, special_request, phone, downpayment, payment_method " +
+                 "FROM tbl_reservations " +
+                 "WHERE venue LIKE ? OR status LIKE ? OR phone LIKE ? OR payment_method LIKE ?";
 
-    conf.displayUser(sql, table_reservations);
+    try (Connection conn = config.connectDB();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
+
+        String searchValue = "%" + keyword + "%";
+
+        pst.setString(1, searchValue);
+        pst.setString(2, searchValue);
+        pst.setString(3, searchValue);
+        pst.setString(4, searchValue);
+
+        ResultSet rs = pst.executeQuery();
+
+        // Assuming you are using DefaultTableModel for table_reservations
+        DefaultTableModel model = (DefaultTableModel) table_reservations.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("r_id"),
+                rs.getInt("u_id"),
+                rs.getString("event_type"),
+                rs.getString("event_date"),
+                rs.getString("event_time"),
+                rs.getString("venue"),
+                rs.getInt("num_guests"),
+                rs.getString("status"),
+                rs.getString("special_request"),
+                rs.getString("phone"),
+                rs.getDouble("downpayment"),
+                rs.getString("payment_method")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
 }
+
+   
+  
+    private void refreshTable() {
+    jTextFieldsearchbar.setText("");
+    displayReservations();
+}
+
+
+    
+
 
 
 
@@ -158,7 +208,7 @@ public class ReservationsTable extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
@@ -171,7 +221,7 @@ public class ReservationsTable extends javax.swing.JFrame {
                 jButton1ViewUsersActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1ViewUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 140, -1));
+        jPanel2.add(jButton1ViewUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, -1));
 
         UserProfile.setBackground(new java.awt.Color(255, 255, 255));
         UserProfile.setText("Profile");
@@ -180,7 +230,7 @@ public class ReservationsTable extends javax.swing.JFrame {
                 UserProfileActionPerformed(evt);
             }
         });
-        jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
+        jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 140, -1));
 
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
@@ -196,7 +246,7 @@ public class ReservationsTable extends javax.swing.JFrame {
                 jButton3ReservationsActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 140, -1));
+        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
 
         jButton4Packages.setText("Packages");
         jButton4Packages.addActionListener(new java.awt.event.ActionListener() {
@@ -204,7 +254,7 @@ public class ReservationsTable extends javax.swing.JFrame {
                 jButton4PackagesActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 140, -1));
+        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 140, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 130, 120));
@@ -215,7 +265,7 @@ public class ReservationsTable extends javax.swing.JFrame {
                 jButton5dashboardActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 140, -1));
+        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 140, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
@@ -232,28 +282,52 @@ public class ReservationsTable extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 570, -1));
 
         jButtonreject.setText("Reject Reservation");
-        jPanel1.add(jButtonreject, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 80, -1, -1));
+        jPanel1.add(jButtonreject, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 80, -1, -1));
 
         jButtonapproved.setText("Approved Reservation");
-        jPanel1.add(jButtonapproved, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, -1, -1));
+        jButtonapproved.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonapprovedMouseClicked(evt);
+            }
+        });
+        jButtonapproved.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonapprovedActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonapproved, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, -1, -1));
 
         jButtondelete.setText("Delete Reservation");
-        jPanel1.add(jButtondelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 80, -1, -1));
+        jPanel1.add(jButtondelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 80, 130, -1));
 
-        jTextFieldsearchbar.setText("jTextField1");
-        jPanel1.add(jTextFieldsearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 120, -1));
+        jTextFieldsearchbar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldsearchbarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextFieldsearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, 140, -1));
 
         jButtonsearch.setText("Search");
-        jPanel1.add(jButtonsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, -1, -1));
+        jButtonsearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonsearchActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 20, -1, -1));
 
         jButtonrefresh.setText("Refresh");
-        jPanel1.add(jButtonrefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+        jButtonrefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonrefreshActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonrefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,7 +381,7 @@ public class ReservationsTable extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutActionPerformed
 
     private void jButton3ReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ReservationsActionPerformed
-        Reservations rf = new Reservations();
+        ReservationsTable rf = new ReservationsTable();
         rf.setVisible(true);
         rf.pack();
         rf.setLocationRelativeTo(null);
@@ -325,6 +399,26 @@ public class ReservationsTable extends javax.swing.JFrame {
     private void jButton5dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5dashboardActionPerformed
         // Already on dashboard
     }//GEN-LAST:event_jButton5dashboardActionPerformed
+
+    private void jButtonsearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonsearchActionPerformed
+      searchReservation();
+    }//GEN-LAST:event_jButtonsearchActionPerformed
+
+    private void jButtonrefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonrefreshActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonrefreshActionPerformed
+
+    private void jButtonapprovedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonapprovedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonapprovedActionPerformed
+
+    private void jButtonapprovedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonapprovedMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonapprovedMouseClicked
+
+    private void jTextFieldsearchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldsearchbarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldsearchbarActionPerformed
 
     /**
      * @param args the command line arguments

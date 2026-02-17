@@ -5,6 +5,7 @@
  */
 package Main;
 
+import static Main.Session.email;
 import config.config;
 import static config.config.connectDB;
 import java.awt.Image;
@@ -23,35 +24,20 @@ import javax.swing.JOptionPane;
  * @author USER35
  */
 public class UserForm extends javax.swing.JDialog {
-public int userId = 0; // 0 = ADD, >0 = UPDATE
+public int u_id = 0; // 0 = ADD, >0 = UPDATE
     public UserForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);
 
-    // 1️⃣ Set sex radio buttons to be exclusive
-    buttonGroup1.add(jRadioButtonmale);
-    buttonGroup1.add(jRadioButtonfemale);
+    // Default Role options
+        jComboBoxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "CUSTOMER", "STAFF" }));
+        jComboBoxType.setSelectedIndex(1); // default CUSTOMER
 
-    // 2️⃣ Set status combo box choices
-    jComboBoxstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {
-        "Single", "Married", "Widowed"
-    }));
-
-    jComboBoxstatus.setSelectedIndex(0);
-    // Role
-
-    // User Type
-jComboBoxType.setModel(new javax.swing.DefaultComboBoxModel<>(
-    new String[] { "ADMIN", "CUSTOMER", "STAFF" }
-));
-jComboBoxType.setSelectedIndex(1); // default CUSTOMER
-
-// Account Status (Approved only)
-jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(
-    new String[] { "APPROVED" }
-));
-jComboBox1.setSelectedIndex(0);
+        // Default Status options
+        jComboBoxstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "APPROVED", "PENDING", "REJECTED" }));
+        jComboBoxstatus.setSelectedIndex(0);
+    
 
 
     }
@@ -69,29 +55,18 @@ jComboBox1.setSelectedIndex(0);
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jTextFieldfullname = new javax.swing.JTextField();
-        jLabelstatus = new javax.swing.JLabel();
         jLabelusername = new javax.swing.JLabel();
         jLabelemail = new javax.swing.JLabel();
-        jLabeladdress = new javax.swing.JLabel();
-        jRadioButtonfemale = new javax.swing.JRadioButton();
-        jRadioButtonmale = new javax.swing.JRadioButton();
-        jLabeltype = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextAreaaddress = new javax.swing.JTextArea();
-        jLabelsex = new javax.swing.JLabel();
-        jComboBoxstatus = new javax.swing.JComboBox<>();
-        jLabelimage = new javax.swing.JLabel();
-        jLabelprofileimage = new javax.swing.JLabel();
-        jTextFieldcontatc = new javax.swing.JTextField();
         add = new javax.swing.JPanel();
         jLabel = new javax.swing.JLabel();
         jTextFieldemail = new javax.swing.JTextField();
         jLabelemail1 = new javax.swing.JLabel();
         jLabeltype1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabeltype2 = new javax.swing.JLabel();
+        jComboBoxstatus = new javax.swing.JComboBox<>();
         jTextFieldpassword = new javax.swing.JTextField();
         jComboBoxType = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -109,86 +84,17 @@ jComboBox1.setSelectedIndex(0);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jTextFieldfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 200, 30));
-
-        jLabelstatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelstatus.setForeground(new java.awt.Color(51, 51, 51));
-        jLabelstatus.setText("civil status:");
-        jPanel1.add(jLabelstatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
+        jPanel1.add(jTextFieldfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 200, 30));
 
         jLabelusername.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelusername.setForeground(new java.awt.Color(51, 51, 51));
         jLabelusername.setText("Full Name:");
-        jPanel1.add(jLabelusername, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+        jPanel1.add(jLabelusername, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, -1));
 
         jLabelemail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelemail.setForeground(new java.awt.Color(51, 51, 51));
         jLabelemail.setText("Password:");
-        jPanel1.add(jLabelemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
-
-        jLabeladdress.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabeladdress.setForeground(new java.awt.Color(51, 51, 51));
-        jLabeladdress.setText("Address:");
-        jPanel1.add(jLabeladdress, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, -1));
-
-        jRadioButtonfemale.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jRadioButtonfemale.setText("Female");
-        jPanel1.add(jRadioButtonfemale, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 70, 30));
-
-        jRadioButtonmale.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jRadioButtonmale.setText("Male");
-        jPanel1.add(jRadioButtonmale, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 60, 30));
-
-        jLabeltype.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabeltype.setForeground(new java.awt.Color(51, 51, 51));
-        jLabeltype.setText("Role:");
-        jPanel1.add(jLabeltype, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, -1, -1));
-
-        jTextAreaaddress.setColumns(20);
-        jTextAreaaddress.setRows(5);
-        jScrollPane1.setViewportView(jTextAreaaddress);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, 200, 140));
-
-        jLabelsex.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelsex.setForeground(new java.awt.Color(51, 51, 51));
-        jLabelsex.setText("Sex:");
-        jPanel1.add(jLabelsex, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, -1));
-
-        jComboBoxstatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jComboBoxstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxstatus.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentAdded(java.awt.event.ContainerEvent evt) {
-                jComboBoxstatusComponentAdded(evt);
-            }
-        });
-        jComboBoxstatus.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBoxstatusMouseClicked(evt);
-            }
-        });
-        jComboBoxstatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxstatusActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jComboBoxstatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, 200, 40));
-
-        jLabelimage.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelimage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png"))); // NOI18N
-        jLabelimage.setOpaque(true);
-        jLabelimage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelimageMouseClicked(evt);
-            }
-        });
-        jPanel1.add(jLabelimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 210, 170, 150));
-
-        jLabelprofileimage.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelprofileimage.setForeground(new java.awt.Color(51, 51, 51));
-        jLabelprofileimage.setText("Picture:");
-        jPanel1.add(jLabelprofileimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, -1, -1));
-        jPanel1.add(jTextFieldcontatc, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, 170, 30));
+        jPanel1.add(jLabelemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, -1, -1));
 
         add.setBackground(new java.awt.Color(255, 255, 255));
         add.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -200,40 +106,43 @@ jComboBox1.setSelectedIndex(0);
 
         jLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel.setText("Label");
-        add.add(jLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 50, 20));
+        add.add(jLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 50, 20));
 
-        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 400, 170, 40));
-        jPanel1.add(jTextFieldemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 200, 30));
+        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 440, 200, 40));
+        jPanel1.add(jTextFieldemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 200, 30));
 
         jLabelemail1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelemail1.setForeground(new java.awt.Color(51, 51, 51));
         jLabelemail1.setText("Email:");
-        jPanel1.add(jLabelemail1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, -1, -1));
+        jPanel1.add(jLabelemail1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, -1, -1));
 
         jLabeltype1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabeltype1.setForeground(new java.awt.Color(51, 51, 51));
         jLabeltype1.setText("Status:");
-        jPanel1.add(jLabeltype1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 140, -1, -1));
+        jPanel1.add(jLabeltype1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Approved", " " }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 160, 40));
+        jComboBoxstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "APPROVED", "PENDING", "REJECT" }));
+        jPanel1.add(jComboBoxstatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 200, 40));
+        jPanel1.add(jTextFieldpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 200, 30));
 
-        jLabeltype2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabeltype2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabeltype2.setText("Contact:");
-        jPanel1.add(jLabeltype2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, -1, -1));
-        jPanel1.add(jTextFieldpassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 200, 30));
+        jComboBoxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "CUSTOMER", "STAFF" }));
+        jPanel1.add(jComboBoxType, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 200, 40));
 
-        jComboBoxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "CUSTOMER", "STAFF", " " }));
-        jPanel1.add(jComboBoxType, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, 170, 40));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setText("User Form");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 623, 470));
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Role:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, -1, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 520));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loadUserData(int id) {
-   String sql = "SELECT * FROM tbl_accounts WHERE u_id=?";
+   private void loadUserData(int id) {
+    String sql = "SELECT * FROM tbl_accounts WHERE u_id=?";
 
     try (Connection con = config.connectDB();
          PreparedStatement pst = con.prepareStatement(sql)) {
@@ -245,124 +154,134 @@ jComboBox1.setSelectedIndex(0);
                 jTextFieldfullname.setText(rs.getString("fullname"));
                 jTextFieldemail.setText(rs.getString("email"));
                 jTextFieldpassword.setText(rs.getString("password"));
-                jTextFieldcontatc.setText(rs.getString("contact"));
-                jTextAreaaddress.setText(rs.getString("address"));
-                jComboBoxstatus.setSelectedItem(rs.getString("civil_status"));
                 jComboBoxType.setSelectedItem(rs.getString("type"));
-                jComboBox1.setSelectedItem(rs.getString("status"));
-
-
-                String sex = rs.getString("sex");
-                if ("Male".equalsIgnoreCase(sex)) {
-                    jRadioButtonmale.setSelected(true);
-                } else {
-                    jRadioButtonfemale.setSelected(true);
-                }
+                jComboBoxstatus.setSelectedItem(rs.getString("status"));
             }
         }
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, e.getMessage());
+        JOptionPane.showMessageDialog(this, "Error loading user data: " + e.getMessage());
     }
 }
+
     private void clearForm() {
     jTextFieldfullname.setText("");
+    jTextFieldemail.setText("");
     jTextFieldpassword.setText("");
-    jTextFieldcontatc.setText("");
-    jTextAreaaddress.setText("");
-    buttonGroup1.clearSelection();
-    jComboBoxstatus.setSelectedIndex(0);
+    jComboBoxType.setSelectedIndex(1); // Default CUSTOMER
+    jComboBoxstatus.setSelectedIndex(0); // Default APPROVED
 }
 
-    public void setFormMode(int id) {
-    this.userId = id;
 
-    if (userId == 0) {
+    public void setFormMode(int id) {
+    this.u_id = id;
+
+    if (u_id == 0) {
         jLabel.setText("ADD");
         clearForm();
     } else {
         jLabel.setText("UPDATE");
-        loadUserData(userId);
+        loadUserData(u_id);
     }
 }
 private void addUser() {
-
     if (!validateForm()) return;
 
-    String sql = "INSERT INTO tbl_accounts "
-            + "(fullname, email, password, sex, contact, civil_status, address, type, status) "
-            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO tbl_accounts (fullname, email, password, type, status) VALUES (?, ?, ?, ?, ?)";
 
     try (Connection con = config.connectDB();
          PreparedStatement pst = con.prepareStatement(sql)) {
 
-        pst.setString(1, jTextFieldfullname.getText());
-        pst.setString(2, jTextFieldemail.getText());
-        pst.setString(3, jTextFieldpassword.getText());
-        pst.setString(4, jRadioButtonmale.isSelected() ? "Male" : "Female");
-        pst.setString(5, jTextFieldcontatc.getText());
-        pst.setString(6, jComboBoxstatus.getSelectedItem().toString());
-        pst.setString(7, jTextAreaaddress.getText());
-        pst.setString(8, jComboBoxType.getSelectedItem().toString());
-        pst.setString(9, "APPROVED"); // Always approved
+        pst.setString(1, jTextFieldfullname.getText().trim());
+        pst.setString(2, jTextFieldemail.getText().trim());
+        pst.setString(3, jTextFieldpassword.getText().trim());
+        pst.setString(4, jComboBoxType.getSelectedItem().toString());
+        pst.setString(5, jComboBoxstatus.getSelectedItem().toString());
 
         int result = pst.executeUpdate();
 
         if (result > 0) {
             JOptionPane.showMessageDialog(this, "User added successfully!");
-            this.dispose();
+            this.dispose(); // close form
         }
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, e.getMessage());
+        JOptionPane.showMessageDialog(this, "Error adding user: " + e.getMessage());
     }
 }
 
 private void updateUser() {
-
     if (!validateForm()) return;
 
-    String sql = "UPDATE tbl_accounts SET "
-            + "fullname=?, email=?, password=?, sex=?, contact=?, "
-            + "civil_status=?, address=?, type=?, status=? "
-            + "WHERE u_id=?";
+    String sql = "UPDATE tbl_accounts SET fullname=?, email=?, password=?, type=?, status=? WHERE u_id=?";
 
     try (Connection con = config.connectDB();
          PreparedStatement pst = con.prepareStatement(sql)) {
 
-        pst.setString(1, jTextFieldfullname.getText());
-        pst.setString(2, jTextFieldemail.getText());
-        pst.setString(3, jTextFieldpassword.getText());
-        pst.setString(4, jRadioButtonmale.isSelected() ? "Male" : "Female");
-        pst.setString(5, jTextFieldcontatc.getText());
-        pst.setString(6, jComboBoxstatus.getSelectedItem().toString());
-        pst.setString(7, jTextAreaaddress.getText());
-        pst.setString(8, jComboBoxType.getSelectedItem().toString());
-        pst.setString(9, "APPROVED"); // Always approved
-        pst.setInt(10, userId);
+        pst.setString(1, jTextFieldfullname.getText().trim());
+        pst.setString(2, jTextFieldemail.getText().trim());
+        pst.setString(3, jTextFieldpassword.getText().trim());
+        pst.setString(4, jComboBoxType.getSelectedItem().toString());
+        pst.setString(5, jComboBoxstatus.getSelectedItem().toString());
+        pst.setInt(6, u_id);
 
         int result = pst.executeUpdate();
 
         if (result > 0) {
             JOptionPane.showMessageDialog(this, "User updated successfully!");
-            this.dispose();
+            this.dispose(); // close form
         }
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, e.getMessage());
+        JOptionPane.showMessageDialog(this, "Error updating user: " + e.getMessage());
     }
 }
+
 
 
     private void addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseClicked
      if (!validateForm()) return;
 
-    if (userId == 0) {
+    if (u_id == 0) {
         addUser();
     } else {
         updateUser();
     }
     }//GEN-LAST:event_addMouseClicked
+private boolean isEmailExists(String email) {
+
+    String sql;
+
+    // If adding new user
+    if (u_id == 0) {
+        sql = "SELECT * FROM tbl_accounts WHERE email = ?";
+    } 
+    // If updating user
+    else {
+        sql = "SELECT * FROM tbl_accounts WHERE email = ? AND u_id != ?";
+    }
+
+    try (Connection con = config.connectDB();
+         PreparedStatement pst = con.prepareStatement(sql)) {
+
+        pst.setString(1, email);
+
+        if (u_id != 0) {
+            pst.setInt(2, u_id);
+        }
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            return true; // email already exists
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Email check error: " + e.getMessage());
+    }
+
+    return false;
+}
 
     private boolean validateForm() {
 
@@ -380,56 +299,18 @@ private void updateUser() {
     JOptionPane.showMessageDialog(this, "Password is required");
     return false;
 }
-
-
-    if (!jRadioButtonmale.isSelected() && !jRadioButtonfemale.isSelected()) {
-        JOptionPane.showMessageDialog(this, "Please select sex");
+    // ✅ CHECK DUPLICATE EMAIL
+    if (isEmailExists(email)) {
+        JOptionPane.showMessageDialog(this, "Email already exists. Please use another email.");
         return false;
     }
 
-    if (jTextFieldcontatc.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Contact is required");
-        return false;
-    }
+
+    
 
     return true;
 }
-
-    private void jComboBoxstatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxstatusActionPerformed
-      
-
-    }//GEN-LAST:event_jComboBoxstatusActionPerformed
-
-    private void jComboBoxstatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxstatusMouseClicked
-       
-    }//GEN-LAST:event_jComboBoxstatusMouseClicked
-
-    private void jComboBoxstatusComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jComboBoxstatusComponentAdded
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxstatusComponentAdded
-
-    private void jLabelimageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelimageMouseClicked
-       JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Select Profile Picture");
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
-            "Image files", "jpg", "jpeg", "png", "gif"
-        ));
-
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
-
-            // Scale image to fit JLabel
-            Image img = icon.getImage().getScaledInstance(
-                    jLabelimage.getWidth(),
-                    jLabelimage.getHeight(),
-                    Image.SCALE_SMOOTH
-            );
-            jLabelimage.setIcon(new ImageIcon(img));
-        }
     
-    }//GEN-LAST:event_jLabelimageMouseClicked
 
 
     /**
@@ -481,28 +362,17 @@ private void updateUser() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel add;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxType;
     private javax.swing.JComboBox<String> jComboBoxstatus;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel;
-    private javax.swing.JLabel jLabeladdress;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelemail;
     private javax.swing.JLabel jLabelemail1;
-    private javax.swing.JLabel jLabelimage;
-    private javax.swing.JLabel jLabelprofileimage;
-    private javax.swing.JLabel jLabelsex;
-    private javax.swing.JLabel jLabelstatus;
-    private javax.swing.JLabel jLabeltype;
     private javax.swing.JLabel jLabeltype1;
-    private javax.swing.JLabel jLabeltype2;
     private javax.swing.JLabel jLabelusername;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButtonfemale;
-    private javax.swing.JRadioButton jRadioButtonmale;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextAreaaddress;
-    private javax.swing.JTextField jTextFieldcontatc;
     private javax.swing.JTextField jTextFieldemail;
     private javax.swing.JTextField jTextFieldfullname;
     private javax.swing.JTextField jTextFieldpassword;

@@ -173,6 +173,12 @@ public class UsersTable extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 120, -1));
+
+        jTextFieldsearchbar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldsearchbarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jTextFieldsearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 30, 180, -1));
 
         jButtonclicksearch.setText("SEARCH");
@@ -377,6 +383,10 @@ uf.setVisible(true);
         rf.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton3ReservationsActionPerformed
+
+    private void jTextFieldsearchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldsearchbarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldsearchbarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -42,7 +42,7 @@ public class PackagesTable extends javax.swing.JFrame {
         loadPackages();
         table_package.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
          setTitle("Packages");
-        setSize(1000, 600);
+        
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -51,35 +51,38 @@ public class PackagesTable extends javax.swing.JFrame {
 
         add(lbl);
     }
-    void displayPackage() {
-           config conf = new config();
-           String sql = "SELECT p_id, package_name, price, description, status FROM tbl_packages";
-           conf.displayUser(sql, table_package);
-           
-    }
+   void displayPackage() {
+    config conf = new config();
+    String sql = "SELECT p_id, package_name, price, pax, description, status FROM tbl_packages";
+    conf.displayUser(sql, table_package);  // Make sure displayUser also handles the Pax column
+}
+
    
     
-    private void loadPackages() {
-        try {
-            Connection conn = connectDB();
-            PreparedStatement pst = conn.prepareStatement("SELECT * FROM tbl_packages");
-            ResultSet rs = pst.executeQuery();
+  private void loadPackages() {
+    try {
+        Connection conn = connectDB();
+        PreparedStatement pst = conn.prepareStatement("SELECT * FROM tbl_packages");
+        ResultSet rs = pst.executeQuery();
 
-            model.setRowCount(0);
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                    rs.getInt("p_id"),
-                    rs.getString("package_name"),
-                    rs.getDouble("price"),
-                    rs.getString("description")
-                });
-            }
-
-            conn.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+        model.setRowCount(0);
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("p_id"),
+                rs.getString("package_name"),
+                rs.getDouble("price"),
+                rs.getInt("pax"),  // NEW
+                rs.getString("description"),
+                rs.getString("status")
+            });
         }
+
+        conn.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
     }
+}
+
    
 
     /**
@@ -93,13 +96,13 @@ public class PackagesTable extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1ViewUsers = new javax.swing.JButton();
-        UserProfile = new javax.swing.JButton();
         logout = new javax.swing.JButton();
-        jButton3Reservations = new javax.swing.JButton();
         jButton4Packages = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jButton5dashboard = new javax.swing.JButton();
+        jButton3Reservations = new javax.swing.JButton();
+        jButton1ViewUsers = new javax.swing.JButton();
+        UserProfile = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_package = new javax.swing.JTable();
         addPackage = new javax.swing.JButton();
@@ -111,11 +114,46 @@ public class PackagesTable extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        logout.setText("Logout");
+        logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutActionPerformed(evt);
+            }
+        });
+        jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, -1));
+
+        jButton4Packages.setText("Packages");
+        jButton4Packages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4PackagesActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 140, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 130, 120));
+
+        jButton5dashboard.setText("Dashboard");
+        jButton5dashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5dashboardActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 140, -1));
+
+        jButton3Reservations.setText("Reservations");
+        jButton3Reservations.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ReservationsActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 140, -1));
 
         jButton1ViewUsers.setBackground(new java.awt.Color(255, 255, 255));
         jButton1ViewUsers.setText("View Users");
@@ -135,41 +173,6 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
 
-        logout.setText("Logout");
-        logout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutActionPerformed(evt);
-            }
-        });
-        jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, -1));
-
-        jButton3Reservations.setText("Reservations");
-        jButton3Reservations.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ReservationsActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 140, -1));
-
-        jButton4Packages.setText("Packages");
-        jButton4Packages.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4PackagesActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 140, -1));
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 130, 120));
-
-        jButton5dashboard.setText("Dashboard");
-        jButton5dashboard.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5dashboardActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 140, -1));
-
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
         table_package.setModel(new javax.swing.table.DefaultTableModel(
@@ -182,9 +185,9 @@ public class PackagesTable extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table_package);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, -1, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 580, -1));
 
-        addPackage.setText("ADD PACKAGE");
+        addPackage.setText("Add Package");
         addPackage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addPackageActionPerformed(evt);
@@ -192,7 +195,7 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel1.add(addPackage, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, -1, -1));
 
-        editpackage.setText("EDIT PACKAGE");
+        editpackage.setText("Edit Package");
         editpackage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editpackageActionPerformed(evt);
@@ -200,24 +203,30 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel1.add(editpackage, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, -1, -1));
 
-        deletepackage.setText("DELETE PACKAGE");
+        deletepackage.setText("Delete Package");
         deletepackage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deletepackageActionPerformed(evt);
             }
         });
         jPanel1.add(deletepackage, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 80, -1, -1));
-        jPanel1.add(jTextFieldSearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, 150, -1));
 
-        jButtonClicksearch.setText("SEARCH");
+        jTextFieldSearchbar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSearchbarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextFieldSearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 150, -1));
+
+        jButtonClicksearch.setText("Search");
         jButtonClicksearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonClicksearchActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonClicksearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 20, -1, -1));
+        jPanel1.add(jButtonClicksearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, -1, -1));
 
-        jButton1.setText("REFRESH");
+        jButton1.setText("Refresh");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -229,7 +238,9 @@ public class PackagesTable extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 708, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,22 +249,6 @@ public class PackagesTable extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ViewUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ViewUsersActionPerformed
-        UsersTable utbl = new UsersTable();
-        utbl.setVisible(true);
-        utbl.pack();
-        utbl.setLocationRelativeTo(null);
-        this.dispose();
-    }//GEN-LAST:event_jButton1ViewUsersActionPerformed
-
-    private void UserProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserProfileActionPerformed
-        UsersProfile2 users = new UsersProfile2();
-        users.setVisible(true);
-        users.pack();
-        users.setLocationRelativeTo(null);
-        this.dispose();
-    }//GEN-LAST:event_UserProfileActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         int choice = JOptionPane.showConfirmDialog(
@@ -281,14 +276,6 @@ public class PackagesTable extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_logoutActionPerformed
-
-    private void jButton3ReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ReservationsActionPerformed
-        ViewReservationTable rsv = new  ViewReservationTable();
-        rsv.setVisible(true);
-        rsv.pack();
-        rsv.setLocationRelativeTo(null);
-        this.dispose();
-    }//GEN-LAST:event_jButton3ReservationsActionPerformed
 
     private void jButton4PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4PackagesActionPerformed
         PackagesTable pg = new PackagesTable();
@@ -379,13 +366,43 @@ displayPackage();
 
     config conf = new config();
     String sql =
-        "SELECT p_id, package_name, price, description, status FROM tbl_packages " +
-        "WHERE package_name LIKE '%" + keyword + "%' " +
-        "OR price LIKE '%" + keyword + "%' " +
-        "OR description LIKE '%" + keyword + "%'";
+    "SELECT p_id, package_name, price, pax, description, status FROM tbl_packages " +
+    "WHERE package_name LIKE '%" + keyword + "%' " +
+    "OR price LIKE '%" + keyword + "%' " +
+    "OR pax LIKE '%" + keyword + "%' " +  // NEW
+    "OR description LIKE '%" + keyword + "%'";
+
 
     conf.displayUser(sql, table_package);
     }//GEN-LAST:event_jButtonClicksearchActionPerformed
+
+    private void jButton3ReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ReservationsActionPerformed
+        ReservationsTable rf = new ReservationsTable();
+        rf.setVisible(true);
+        rf.pack();
+        rf.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ReservationsActionPerformed
+
+    private void jButton1ViewUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ViewUsersActionPerformed
+        UsersTable utbl = new UsersTable();
+        utbl.setVisible(true);
+        utbl.pack();
+        utbl.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ViewUsersActionPerformed
+
+    private void UserProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserProfileActionPerformed
+        UsersProfile2 users = new UsersProfile2();
+        users.setVisible(true);
+        users.pack();
+        users.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_UserProfileActionPerformed
+
+    private void jTextFieldSearchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSearchbarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldSearchbarActionPerformed
 
     /**
      * @param args the command line arguments

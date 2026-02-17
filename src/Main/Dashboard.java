@@ -13,6 +13,11 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
+import com.toedter.calendar.JDateChooser;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+
 
 
 
@@ -23,13 +28,18 @@ public class Dashboard extends javax.swing.JFrame {
     private JLabel lblPendingReservations;
     private JTable upcomingTable;
     private JPanel dashboardArea; // only content panel
+    private JDateChooser dateFilter;
+
 
 
     public Dashboard() {
         initComponents();
    
-
-    lblWelcome.setText("Welcome " + Session.fullname); // optional label
+// 🔐 CHECK LOGIN FIRST
+    if (!checkLogin()) {
+        return; // stop loading dashboard
+    }
+    jLabelWelcome.setText("Welcome! " + Session.fullname); // optional label
         setTitle("Customer Dashboard");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -39,6 +49,21 @@ public class Dashboard extends javax.swing.JFrame {
         loadDashboardData();
        
     }
+    private boolean checkLogin() {
+    if (Session.u_id == 0) {
+        JOptionPane.showMessageDialog(this, "Please login first!");
+
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
+
+        
+        return false;
+    }
+    return true;
+}
+
       // Setup dashboard in the placeholder panel
     private void setupDashboard() {
         // Create content panel
@@ -84,6 +109,25 @@ public class Dashboard extends javax.swing.JFrame {
         JScrollPane scroll = new JScrollPane(upcomingTable);
         scroll.setPreferredSize(new Dimension(760, 120));
         dashboardArea.add(scroll, BorderLayout.SOUTH);
+        // ===== Date Filter Panel =====
+JPanel filterPanel = new JPanel();
+filterPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+dateFilter = new JDateChooser();
+dateFilter.setDateFormatString("yyyy-MM-dd");
+
+JButton btnFilter = new JButton("Filter");
+
+btnFilter.addActionListener(e -> {
+    loadDashboardData(); // reload data when clicked
+});
+
+filterPanel.add(new JLabel("Filter by Date: "));
+filterPanel.add(dateFilter);
+filterPanel.add(btnFilter);
+
+dashboardArea.add(filterPanel, BorderLayout.BEFORE_FIRST_LINE);
+
     }
 
     // Create a stat card
@@ -132,21 +176,38 @@ public class Dashboard extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) upcomingTable.getModel();
             model.setRowCount(0); // Clear existing rows
 
-            String tableQuery = "SELECT p.package_name, r.event_date, r.num_guests, r.status " +
-                                "FROM tbl_reservations r JOIN tbl_packages p ON r.r_id = p.p_id " +
-                                "WHERE r.u_id = ? ORDER BY r.event_date ASC LIMIT 5";
-            java.sql.PreparedStatement pst4 = conn.prepareStatement(tableQuery);
-            pst4.setInt(1, Session.u_id);
-            java.sql.ResultSet rs4 = pst4.executeQuery();
+String tableQuery = 
+    "SELECT p.package_name, r.event_date, r.num_guests, r.status " +
+    "FROM tbl_reservations r " +
+    "JOIN tbl_packages p ON r.p_id = p.p_id " +
+    "WHERE r.u_id = ? ";
 
-            while (rs4.next()) {
-                model.addRow(new Object[]{
-                        rs4.getString("package_name"),
-                        rs4.getDate("event_date"),
-                        rs4.getInt("num_guests"),
-                        rs4.getString("status")
-                });
-            }
+if (dateFilter.getDate() != null) {
+    tableQuery += " AND r.event_date = ? ";
+}
+
+tableQuery += " ORDER BY r.event_date ASC LIMIT 5";
+
+PreparedStatement pst4 = conn.prepareStatement(tableQuery);
+pst4.setInt(1, Session.u_id);
+
+if (dateFilter.getDate() != null) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String selectedDate = sdf.format(dateFilter.getDate());
+    pst4.setString(2, selectedDate);
+}
+
+ResultSet rs4 = pst4.executeQuery();
+
+while (rs4.next()) {
+    model.addRow(new Object[]{
+        rs4.getString("package_name"),
+        rs4.getString("event_date"),
+        rs4.getInt("num_guests"),
+        rs4.getString("status")
+    });
+}
+
 
             conn.close();
 
@@ -180,15 +241,21 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButtondashboard = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        lblWelcome = new javax.swing.JLabel();
         jPanelContent = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        lblWelcome = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabelWelcome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpanel.setBackground(new java.awt.Color(51, 51, 51));
@@ -218,7 +285,7 @@ public class Dashboard extends javax.swing.JFrame {
                 ReservationsActionPerformed(evt);
             }
         });
-        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, -1));
+        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
 
         profile.setText("Profile");
         profile.addActionListener(new java.awt.event.ActionListener() {
@@ -247,7 +314,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jpanel.add(jButtondashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 140, -1));
 
-        jPanel2.add(jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 490));
+        jPanel2.add(jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 500));
 
         jButton1.setBackground(new java.awt.Color(0, 102, 204));
         jButton1.setText("Continue....");
@@ -257,20 +324,27 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 680, -1, -1));
+        jPanel2.add(jPanelContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, 500, 370));
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel6.setText("CUSTOMER DASHBOARD");
-        jPanel3.add(jLabel6);
+        lblWelcome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jPanel3.add(lblWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 19, -1, -1));
 
-        lblWelcome.setText("WELCOME");
-        jPanel3.add(lblWelcome);
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Customer Dashboard");
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 500, 80));
-        jPanel2.add(jPanelContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, 460, 370));
+        jLabelWelcome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabelWelcome.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelWelcome.setText("jLabel1");
+        jPanel3.add(jLabelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 490));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 530, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 500));
 
         pack();
         setLocationRelativeTo(null);
@@ -314,10 +388,10 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_LogoutActionPerformed
 
     private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
-        UsersProfile users = new UsersProfile();
-        users.setVisible(true);
-        users.pack();
-        users.setLocationRelativeTo(null);
+        UsersProfile pf = new UsersProfile();
+        pf.setVisible(true);
+        pf.pack();
+        pf.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_profileActionPerformed
 
@@ -352,6 +426,24 @@ public class Dashboard extends javax.swing.JFrame {
     db.setLocationRelativeTo(null);
     this.dispose();
     }//GEN-LAST:event_jButtondashboardActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // 🔐 CHECK LOGIN FIRST
+    if (Session.u_id == 0) {
+
+        JOptionPane.showMessageDialog(this, "Please login first!");
+
+        // Open login form
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
+
+        // Close this dashboard immediately
+        this.dispose();
+        return;
+    }
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -396,6 +488,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButtondashboard;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabelWelcome;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelContent;

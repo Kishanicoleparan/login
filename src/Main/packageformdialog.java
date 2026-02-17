@@ -38,7 +38,7 @@ public class packageformdialog extends javax.swing.JDialog {
     this.packageId = id;
 
     package_name1.setText(name);
-    price.setText(p_price);
+    price.setValue(p_price);
     description.setText(desc);
     jComboBoxstatus.setSelectedItem(status);
 }
@@ -55,7 +55,7 @@ public class packageformdialog extends javax.swing.JDialog {
 
         if (rs.next()) {
               package_name1.setText(rs.getString("package_name"));
-            price.setText(rs.getString("price"));
+            price.setValue(rs.getString("price"));
             description.setText(rs.getString("description"));
             jComboBoxstatus.setSelectedItem(rs.getString("status"));
         }
@@ -95,7 +95,8 @@ public class packageformdialog extends javax.swing.JDialog {
 
         if (rs.next()) {
             package_name1.setText(rs.getString("package_name"));
-            price.setText(rs.getString("price"));
+            price.setValue(rs.getDouble("price"));
+            pax.setValue(rs.getInt("pax"));  // NEW: load pax
             description.setText(rs.getString("description"));
             jComboBoxstatus.setSelectedItem(rs.getString("status"));
         }
@@ -107,7 +108,8 @@ public class packageformdialog extends javax.swing.JDialog {
 
    private void clearForm() {
     package_name1.setText("");
-    price.setText("");
+    price.setValue(0);
+    pax.setValue(0); // NEW
     description.setText("");
     jComboBoxstatus.setSelectedIndex(0);
 }
@@ -125,10 +127,7 @@ public class packageformdialog extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabelp_image = new javax.swing.JLabel();
         package_name1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        price = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -137,76 +136,50 @@ public class packageformdialog extends javax.swing.JDialog {
         description = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
         jComboBoxstatus = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        pax = new javax.swing.JSpinner();
+        price = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Price:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 240, 40, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
+        jPanel1.add(package_name1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 180, 30));
 
-        jLabelp_image.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelp_image.setOpaque(true);
-        jLabelp_image.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelp_imageMouseClicked(evt);
-            }
-        });
-        jPanel1.add(jLabelp_image, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, 170, 120));
-        jPanel1.add(package_name1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 170, -1));
-
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Picture:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, -1, -1));
-        jPanel1.add(price, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 170, -1));
-
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("status:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 340, 70, 30));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 360, 60, 30));
 
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("description:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 70, 30));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 100, 30));
 
         jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel2MouseClicked(evt);
             }
         });
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel.setText("ADD PACKAGE");
+        jPanel2.add(jLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 118, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(jLabel)
-                .addContainerGap())
-        );
-
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, 190, 40));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 420, 190, 40));
 
         description.setColumns(20);
         description.setRows(5);
         jScrollPane1.setViewportView(description);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 180, 70));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 180, 90));
 
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Package Name:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
 
         jComboBoxstatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available", " " }));
         jComboBoxstatus.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -219,7 +192,13 @@ public class packageformdialog extends javax.swing.JDialog {
                 jComboBoxstatusActionPerformed(evt);
             }
         });
-        jPanel1.add(jComboBoxstatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 180, -1));
+        jPanel1.add(jComboBoxstatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, 180, 40));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Pax:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, -1, -1));
+        jPanel1.add(pax, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 180, 30));
+        jPanel1.add(price, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 180, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,7 +208,7 @@ public class packageformdialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
         );
 
         pack();
@@ -240,7 +219,8 @@ public class packageformdialog extends javax.swing.JDialog {
         Connection conn = connectDB();
 
         String name = package_name1.getText();
-        double p_price = Double.parseDouble(price.getText());
+        double p_price = ((Number) price.getValue()).doubleValue();
+        int p_pax = ((Number) pax.getValue()).intValue(); // for pax spinner
         String desc = description.getText();
         String status = jComboBoxstatus.getSelectedItem().toString();
 
@@ -248,23 +228,27 @@ public class packageformdialog extends javax.swing.JDialog {
 
         if (packageId == 0) {
             // ADD
-            sql = "INSERT INTO tbl_packages (package_name, price, description, status) VALUES (?, ?, ?, ?)";
+            sql = "INSERT INTO tbl_packages (package_name, price, pax, description, status) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, name);
+            pst.setDouble(2, p_price);
+            pst.setInt(3, p_pax);      // pax
+            pst.setString(4, desc);    // description
+            pst.setString(5, status);  // status
+            pst.executeUpdate();
         } else {
             // UPDATE
-            sql = "UPDATE tbl_packages SET package_name=?, price=?, description=?, status=? WHERE p_id=?";
+            sql = "UPDATE tbl_packages SET package_name=?, price=?, pax=?, description=?, status=? WHERE p_id=?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, name);
+            pst.setDouble(2, p_price);
+            pst.setInt(3, p_pax);     // pax
+            pst.setString(4, desc);   // description
+            pst.setString(5, status); // status
+            pst.setInt(6, packageId); // WHERE p_id
+            pst.executeUpdate();
         }
 
-        PreparedStatement pst = conn.prepareStatement(sql);
-        pst.setString(1, name);
-        pst.setDouble(2, p_price);
-        pst.setString(3, desc);
-        pst.setString(4, status);
-
-        if (packageId != 0) {
-            pst.setInt(5, packageId);
-        }
-
-        pst.executeUpdate();
         conn.close();
 
         JOptionPane.showMessageDialog(this,
@@ -276,28 +260,6 @@ public class packageformdialog extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, e.getMessage());
     }
     }//GEN-LAST:event_jPanel2MouseClicked
-
-    private void jLabelp_imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelp_imageMouseClicked
-         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Select Profile Picture");
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
-            "Image files", "jpg", "jpeg", "png", "gif"
-        ));
-
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
-
-            // Scale image to fit JLabel
-            Image img = icon.getImage().getScaledInstance(
-                    jLabelp_image.getWidth(),
-                    jLabelp_image.getHeight(),
-                    Image.SCALE_SMOOTH
-            );
-            jLabelp_image.setIcon(new ImageIcon(img));
-        }
-    }//GEN-LAST:event_jLabelp_imageMouseClicked
 
     private void jComboBoxstatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxstatusMouseClicked
        
@@ -354,15 +316,15 @@ public class packageformdialog extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> jComboBoxstatus;
     private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabelp_image;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField package_name1;
-    private javax.swing.JTextField price;
+    private javax.swing.JSpinner pax;
+    private javax.swing.JSpinner price;
     // End of variables declaration//GEN-END:variables
 }
