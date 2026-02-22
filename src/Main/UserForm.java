@@ -87,7 +87,6 @@ public int u_id = 0; // 0 = ADD, >0 = UPDATE
         jPanel1.add(jTextFieldfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 200, 30));
 
         jLabelusername.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelusername.setForeground(new java.awt.Color(51, 51, 51));
         jLabelusername.setText("Full Name:");
         jPanel1.add(jLabelusername, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, -1));
 

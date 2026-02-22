@@ -18,7 +18,7 @@ import javax.swing.JFileChooser;
  * @author Admin
  */
 public class UsersProfile2 extends javax.swing.JFrame {
-   
+    private String selectedProfileImagePath = null; // temporary path before saving
     private void setProfileImage(String path) {
     
     ImageIcon icon = new ImageIcon(path);
@@ -41,6 +41,7 @@ public class UsersProfile2 extends javax.swing.JFrame {
     public UsersProfile2() {
         initComponents();
         loadUserProfile();
+        jButtonupdateprofile.addActionListener(e -> updateUserProfile());
         
     // Delay image scaling until UI is ready
     java.awt.EventQueue.invokeLater(() -> {
@@ -58,39 +59,159 @@ public class UsersProfile2 extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     
-   private void loadUserProfile() { 
-       
-         // 🔐 Security check
-        if (Session.u_id == 0) {
-            JOptionPane.showMessageDialog(this, "Please login first.");
-            new LoginForm().setVisible(true);
-            this.dispose();
+  private void loadUserProfile() {
+    try {
+        Connection con = new config.config().connectDB();
+        String sql = "SELECT u_id, fullname, email, type, status FROM tbl_accounts WHERE u_id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, Session.u_id);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            jTextFieldID.setText(rs.getString("u_id"));
+            jTextFieldfullname.setText(rs.getString("fullname"));
+            jTextFieldemail.setText(rs.getString("email"));
+            jTextFieldtype.setText(rs.getString("type"));
+            jTextFieldstatus.setText(rs.getString("status"));
+
+            // ✅ LOAD PROFILE IMAGE - search for any image with user ID prefix
+            File profileDir = new File("src/images/profiles");
+            File[] files = profileDir.listFiles();
+            String userImagePath = null;
+            
+            if (files != null) {
+                for (int i = 0; i < files.length; i++) {
+                    File file = files[i];
+                    String name = file.getName().toLowerCase();
+                    
+                    // Check if file starts with user ID and is an image
+                    if (name.startsWith("user_" + Session.u_id + "_") && 
+                        (name.endsWith(".jpg") || name.endsWith(".jpeg") || 
+                         name.endsWith(".png") || name.endsWith(".gif") || 
+                         name.endsWith(".bmp"))) {
+                        userImagePath = file.getAbsolutePath();
+                        break;
+                    }
+                }
+            }
+            
+            if (userImagePath != null && new File(userImagePath).exists()) {
+                setProfileImage(userImagePath);
+            } else {
+                // Default image from resources
+                setProfileImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add.png")));
+            }
+        }
+        con.close();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+}
+  private void updateUserProfile() {
+    String fullname = jTextFieldfullname.getText().trim();
+    String email = jTextFieldemail.getText().trim();
+
+    if (fullname.isEmpty() || email.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please fill all fields!", "Warning", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        Connection con = new config.config().connectDB();
+
+        // Get current values from database
+        String getCurrentSql = "SELECT fullname, email FROM tbl_accounts WHERE u_id = ?";
+        PreparedStatement getCurrentPst = con.prepareStatement(getCurrentSql);
+        getCurrentPst.setInt(1, Session.u_id);
+        ResultSet rs = getCurrentPst.executeQuery();
+
+        if (rs.next()) {
+            String currentFullname = rs.getString("fullname");
+            String currentEmail = rs.getString("email");
+
+            if (fullname.equals(currentFullname) && email.equals(currentEmail) && selectedProfileImagePath == null) {
+                JOptionPane.showMessageDialog(this, "No changes detected!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                con.close();
+                return;
+            }
+        }
+
+        // Check if email already exists for another user
+        String checkSql = "SELECT u_id FROM tbl_accounts WHERE email = ? AND u_id <> ?";
+        PreparedStatement checkPst = con.prepareStatement(checkSql);
+        checkPst.setString(1, email);
+        checkPst.setInt(2, Session.u_id);
+
+        ResultSet checkRs = checkPst.executeQuery();
+        if (checkRs.next()) {
+            JOptionPane.showMessageDialog(this, "Email already exists!", "Error", JOptionPane.ERROR_MESSAGE);
+            con.close();
             return;
         }
 
-        try {
-            Connection con = new config.config().connectDB();
-
-            String sql = "SELECT u_id, fullname, email, type, status " +
-                         "FROM tbl_accounts WHERE u_id = ?";
-
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, Session.u_id);
-
-            ResultSet rs = pst.executeQuery();
-        if (rs.next()){ 
-        jLabelID.setText(rs.getString("u_id")); 
-        jLabelfullname.setText(rs.getString("fullname")); 
-        jLabelemail.setText(rs.getString("email")); 
-        jLabeltype.setText(rs.getString("type")); 
-        jLabelstatus.setText(rs.getString("status"));
-        } 
-        con.close();
-        } catch (Exception e){ 
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        // ✅ SAVE PROFILE IMAGE - with original extension
+        if (selectedProfileImagePath != null) {
+            try {
+                File source = new File(selectedProfileImagePath);
+                String originalName = source.getName();
+                String extension = "";
+                
+                int dotIndex = originalName.lastIndexOf('.');
+                if (dotIndex > 0) {
+                    extension = originalName.substring(dotIndex);
+                }
+                
+                // Create directory if it doesn't exist
+                File profileDir = new File("src/images/profiles");
+                if (!profileDir.exists()) {
+                    profileDir.mkdirs();
+                }
+                
+                String destPath = "src/images/profiles/user_" + Session.u_id + "_profile" + extension;
+                File dest = new File(destPath);
+                
+                // Delete old profile images first
+                File[] oldFiles = profileDir.listFiles();
+                if (oldFiles != null) {
+                    for (File f : oldFiles) {
+                        if (f.getName().startsWith("user_" + Session.u_id + "_")) {
+                            f.delete();
+                        }
+                    }
+                }
+                
+                java.nio.file.Files.copy(source.toPath(), dest.toPath(), 
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                
+                selectedProfileImagePath = null; // Reset after saving
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error saving image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
-    
+
+        // Update fullname and email
+        String sql = "UPDATE tbl_accounts SET fullname = ?, email = ? WHERE u_id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, fullname);
+        pst.setString(2, email);
+        pst.setInt(3, Session.u_id);
+
+        int updated = pst.executeUpdate();
+
+        if (updated > 0) {
+            JOptionPane.showMessageDialog(this, "Profile updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadUserProfile(); // Reload to show the saved image
+        } else {
+            JOptionPane.showMessageDialog(this, "Update failed.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        con.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
      
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -109,16 +230,18 @@ public class UsersProfile2 extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         UserProfile = new javax.swing.JButton();
         logout = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
         jButton5dashboard = new javax.swing.JButton();
         jButton4Packages = new javax.swing.JButton();
         jButton3Reservations = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabelfullname = new javax.swing.JLabel();
-        jLabelID = new javax.swing.JLabel();
-        jLabelemail = new javax.swing.JLabel();
-        jLabeltype = new javax.swing.JLabel();
-        jLabelstatus = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jTextFieldID = new javax.swing.JTextField();
+        jTextFieldfullname = new javax.swing.JTextField();
+        jTextFieldemail = new javax.swing.JTextField();
+        jTextFieldtype = new javax.swing.JTextField();
+        jTextFieldstatus = new javax.swing.JTextField();
+        jButtonupdateprofile = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -141,17 +264,19 @@ public class UsersProfile2 extends javax.swing.JFrame {
                 setProfileImageMouseClicked(evt);
             }
         });
-        jPanel3.add(setProfileImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 130, 130));
+        jPanel3.add(setProfileImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 60, 130, 130));
 
+        jLabelTitle.setBackground(new java.awt.Color(0, 153, 153));
         jLabelTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabelTitle.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitle.setText("User Profile");
-        jPanel3.add(jLabelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 140, 20));
+        jLabelTitle.setOpaque(true);
+        jPanel3.add(jLabelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 140, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("User ID:");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, -1, -1));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -166,12 +291,12 @@ public class UsersProfile2 extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Status:");
-        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 400, -1, -1));
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 400, -1, -1));
 
-        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setBackground(new java.awt.Color(0, 153, 153));
         jButton3.setText("View Users");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,7 +305,7 @@ public class UsersProfile2 extends javax.swing.JFrame {
         });
         jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, -1));
 
-        UserProfile.setBackground(new java.awt.Color(255, 255, 255));
+        UserProfile.setBackground(new java.awt.Color(0, 153, 153));
         UserProfile.setText("Profile");
         UserProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,6 +314,7 @@ public class UsersProfile2 extends javax.swing.JFrame {
         });
         jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 140, -1));
 
+        logout.setBackground(new java.awt.Color(0, 153, 153));
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,25 +323,25 @@ public class UsersProfile2 extends javax.swing.JFrame {
         });
         jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, -1));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 130, 120));
-
+        jButton5dashboard.setBackground(new java.awt.Color(0, 153, 153));
         jButton5dashboard.setText("Dashboard");
         jButton5dashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5dashboardActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 140, -1));
+        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 140, -1));
 
+        jButton4Packages.setBackground(new java.awt.Color(0, 153, 153));
         jButton4Packages.setText("Packages");
         jButton4Packages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4PackagesActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 140, -1));
+        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 140, -1));
 
+        jButton3Reservations.setBackground(new java.awt.Color(0, 153, 153));
         jButton3Reservations.setText("Reservations");
         jButton3Reservations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,6 +350,11 @@ public class UsersProfile2 extends javax.swing.JFrame {
         });
         jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, -1));
 
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/redefined.png"))); // NOI18N
+        jLabel5.setOpaque(true);
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, 150));
+
         jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -231,30 +362,30 @@ public class UsersProfile2 extends javax.swing.JFrame {
         jLabel6.setText("Full Name:");
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, -1, -1));
 
-        jLabelfullname.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelfullname.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelfullname.setText("jLabel5");
-        jPanel3.add(jLabelfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 260, -1, -1));
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Profile Picture:");
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, -1, -1));
 
-        jLabelID.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelID.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelID.setText("jLabel5");
-        jPanel3.add(jLabelID, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 220, -1, -1));
+        jTextFieldID.setEnabled(false);
+        jPanel3.add(jTextFieldID, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 220, 130, -1));
+        jPanel3.add(jTextFieldfullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 260, 130, -1));
+        jPanel3.add(jTextFieldemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 300, 130, -1));
 
-        jLabelemail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelemail.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelemail.setText("jLabel5");
-        jPanel3.add(jLabelemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, -1, -1));
+        jTextFieldtype.setEnabled(false);
+        jPanel3.add(jTextFieldtype, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 350, 130, -1));
 
-        jLabeltype.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabeltype.setForeground(new java.awt.Color(255, 255, 255));
-        jLabeltype.setText("jLabel5");
-        jPanel3.add(jLabeltype, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 350, -1, 20));
+        jTextFieldstatus.setEnabled(false);
+        jPanel3.add(jTextFieldstatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 400, 130, -1));
 
-        jLabelstatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabelstatus.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelstatus.setText("jLabel5");
-        jPanel3.add(jLabelstatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 400, -1, 20));
+        jButtonupdateprofile.setBackground(new java.awt.Color(0, 204, 204));
+        jButtonupdateprofile.setText("Update Profile");
+        jButtonupdateprofile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonupdateprofileActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButtonupdateprofile, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 470, 130, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -270,45 +401,25 @@ public class UsersProfile2 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void setProfileImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setProfileImageMouseClicked
-
-       JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Select Profile Picture");
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
-            "Image files", "jpg", "jpeg", "png", "gif"
-        ));
-
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
-
-            // Scale image to fit JLabel
-            Image img = icon.getImage().getScaledInstance(
-                    setProfileImage.getWidth(),
-                    setProfileImage.getHeight(),
-                    Image.SCALE_SMOOTH
-            );
-            setProfileImage.setIcon(new ImageIcon(img));
-        }
-
-    }//GEN-LAST:event_setProfileImageMouseClicked
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        UsersTable utbl = new UsersTable();
-        utbl.setVisible(true);
-        utbl.pack();
-        utbl.setLocationRelativeTo(null);
+    private void jButton3ReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ReservationsActionPerformed
+        ReservationsTable rf = new ReservationsTable();
+        rf.setVisible(true);
+        rf.pack();
+        rf.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButton3ReservationsActionPerformed
 
-    private void UserProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserProfileActionPerformed
-        UsersProfile2 users = new UsersProfile2();
-        users.setVisible(true);
-        users.pack();
-        users.setLocationRelativeTo(null);
+    private void jButton4PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4PackagesActionPerformed
+        PackagesTable pg = new PackagesTable();
+        pg.setVisible(true);
+        pg.pack();
+        pg.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_UserProfileActionPerformed
+    }//GEN-LAST:event_jButton4PackagesActionPerformed
+
+    private void jButton5dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5dashboardActionPerformed
+        // Already on dashboard
+    }//GEN-LAST:event_jButton5dashboardActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         int choice = JOptionPane.showConfirmDialog(
@@ -337,25 +448,48 @@ public class UsersProfile2 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logoutActionPerformed
 
-    private void jButton5dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5dashboardActionPerformed
-        // Already on dashboard
-    }//GEN-LAST:event_jButton5dashboardActionPerformed
-
-    private void jButton4PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4PackagesActionPerformed
-        PackagesTable pg = new PackagesTable();
-        pg.setVisible(true);
-        pg.pack();
-        pg.setLocationRelativeTo(null);
+    private void UserProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserProfileActionPerformed
+        UsersProfile2 users = new UsersProfile2();
+        users.setVisible(true);
+        users.pack();
+        users.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_jButton4PackagesActionPerformed
+    }//GEN-LAST:event_UserProfileActionPerformed
 
-    private void jButton3ReservationsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ReservationsActionPerformed
-        ReservationsTable rf = new ReservationsTable();
-        rf.setVisible(true);
-        rf.pack();
-        rf.setLocationRelativeTo(null);
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        UsersTable utbl = new UsersTable();
+        utbl.setVisible(true);
+        utbl.pack();
+        utbl.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_jButton3ReservationsActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void setProfileImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setProfileImageMouseClicked
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select Profile Picture");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
+            "Image files", "jpg", "jpeg", "png", "gif"
+        ));
+
+        int result = fileChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            ImageIcon icon = new ImageIcon(selectedFile.getAbsolutePath());
+
+            // Scale image to fit JLabel
+            Image img = icon.getImage().getScaledInstance(
+                setProfileImage.getWidth(),
+                setProfileImage.getHeight(),
+                Image.SCALE_SMOOTH
+            );
+            setProfileImage.setIcon(new ImageIcon(img));
+        }
+    }//GEN-LAST:event_setProfileImageMouseClicked
+
+    private void jButtonupdateprofileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonupdateprofileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonupdateprofileActionPerformed
 
     /**
      * @param args the command line arguments
@@ -401,21 +535,23 @@ public class UsersProfile2 extends javax.swing.JFrame {
     private javax.swing.JButton jButton3Reservations;
     private javax.swing.JButton jButton4Packages;
     private javax.swing.JButton jButton5dashboard;
+    private javax.swing.JButton jButtonupdateprofile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabelID;
     private javax.swing.JLabel jLabelTitle;
-    private javax.swing.JLabel jLabelemail;
-    private javax.swing.JLabel jLabelfullname;
-    private javax.swing.JLabel jLabelstatus;
-    private javax.swing.JLabel jLabeltype;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField jTextFieldID;
+    private javax.swing.JTextField jTextFieldemail;
+    private javax.swing.JTextField jTextFieldfullname;
+    private javax.swing.JTextField jTextFieldstatus;
+    private javax.swing.JTextField jTextFieldtype;
     private javax.swing.JButton logout;
     private javax.swing.JLabel setProfileImage;
     // End of variables declaration//GEN-END:variables

@@ -35,10 +35,7 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
    
-// 🔐 CHECK LOGIN FIRST
-    if (!checkLogin()) {
-        return; // stop loading dashboard
-    }
+
     jLabelWelcome.setText("Welcome! " + Session.fullname); // optional label
         setTitle("Customer Dashboard");
         setLocationRelativeTo(null);
@@ -49,20 +46,7 @@ public class Dashboard extends javax.swing.JFrame {
         loadDashboardData();
        
     }
-    private boolean checkLogin() {
-    if (Session.u_id == 0) {
-        JOptionPane.showMessageDialog(this, "Please login first!");
-
-        LoginForm login = new LoginForm();
-        login.setVisible(true);
-        login.pack();
-        login.setLocationRelativeTo(null);
-
-        
-        return false;
-    }
-    return true;
-}
+   
 
       // Setup dashboard in the placeholder panel
     private void setupDashboard() {
@@ -238,8 +222,8 @@ while (rs4.next()) {
         Reservations = new javax.swing.JButton();
         profile = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         jButtondashboard = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanelContent = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -255,10 +239,10 @@ while (rs4.next()) {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jpanel.setBackground(new java.awt.Color(51, 51, 51));
+        jpanel.setBackground(new java.awt.Color(0, 0, 0));
         jpanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jpanelMouseClicked(evt);
@@ -266,6 +250,7 @@ while (rs4.next()) {
         });
         jpanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        Packages.setBackground(new java.awt.Color(0, 153, 153));
         Packages.setText("Packages");
         Packages.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -277,42 +262,48 @@ while (rs4.next()) {
                 PackagesActionPerformed(evt);
             }
         });
-        jpanel.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 140, -1));
+        jpanel.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
 
+        Reservations.setBackground(new java.awt.Color(0, 153, 153));
         Reservations.setText("Reservations");
         Reservations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ReservationsActionPerformed(evt);
             }
         });
-        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
+        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, -1));
 
+        profile.setBackground(new java.awt.Color(0, 153, 153));
         profile.setText("Profile");
         profile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 profileActionPerformed(evt);
             }
         });
-        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 140, -1));
+        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 140, -1));
 
+        Logout.setBackground(new java.awt.Color(0, 153, 153));
         Logout.setText("Logout");
         Logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LogoutActionPerformed(evt);
             }
         });
-        jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
+        jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 430, 140, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
-        jpanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 120));
-
+        jButtondashboard.setBackground(new java.awt.Color(0, 153, 153));
         jButtondashboard.setText("Dashboard");
         jButtondashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtondashboardActionPerformed(evt);
             }
         });
-        jpanel.add(jButtondashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 140, -1));
+        jpanel.add(jButtondashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 140, -1));
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/redefined.png"))); // NOI18N
+        jLabel2.setOpaque(true);
+        jpanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, 150));
 
         jPanel2.add(jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 500));
 
@@ -324,27 +315,31 @@ while (rs4.next()) {
             }
         });
         jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 680, -1, -1));
-        jPanel2.add(jPanelContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, 500, 370));
+        jPanel2.add(jPanelContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 500, 370));
 
-        jPanel3.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel3.setBackground(new java.awt.Color(51, 51, 51));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblWelcome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jPanel3.add(lblWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(138, 19, -1, -1));
 
+        jLabel6.setBackground(new java.awt.Color(0, 153, 153));
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Customer Dashboard");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
+        jLabel6.setOpaque(true);
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, -1, -1));
 
+        jLabelWelcome.setBackground(new java.awt.Color(0, 153, 153));
         jLabelWelcome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabelWelcome.setForeground(new java.awt.Color(255, 255, 255));
         jLabelWelcome.setText("jLabel1");
-        jPanel3.add(jLabelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+        jLabelWelcome.setOpaque(true);
+        jPanel3.add(jLabelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
 
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 530, -1));
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 560, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 500));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 500));
 
         pack();
         setLocationRelativeTo(null);
@@ -486,7 +481,7 @@ while (rs4.next()) {
     private javax.swing.JButton Reservations;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtondashboard;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelWelcome;
     private javax.swing.JPanel jPanel2;

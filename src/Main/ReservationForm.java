@@ -10,7 +10,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.JSpinner.DateEditor;
+import javax.swing.SpinnerDateModel;
 
 public class ReservationForm extends javax.swing.JDialog {
 
@@ -18,9 +23,24 @@ public class ReservationForm extends javax.swing.JDialog {
     public ReservationForm(java.awt.Frame parent, boolean modal, int packageId) {
         super(parent, modal);
         initComponents();
+        
+        // Create a SpinnerDateModel
+SpinnerDateModel timeModel = new SpinnerDateModel();
+
+// Create a spinner model with current time
+JSpinner jSpinnerTime = new JSpinner(timeModel);
+
+// Set editor to show only hours and minutes with AM/PM
+// Format spinner to show 12-hour time with AM/PM
+JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(jSpinnerTime, "hh:mm a");
+jSpinnerTime.setEditor(timeEditor);
+ // Set default value to current time
+jSpinnerTime.setValue(new Date());
         this.packageId = packageId;
+        loadPackageDetails();
         setLocationRelativeTo(parent);
-        loadPackageDetails(); // 👈 load selected package
+  // Set default value to current time
+
     }
 
    
@@ -36,6 +56,7 @@ public class ReservationForm extends javax.swing.JDialog {
                 jTextFieldpackage_name.setText(rs.getString("package_name"));
                 jTextFieldprice.setText(rs.getString("price"));
                 jTextAreadescription.setText(rs.getString("description"));
+                jTextFieldpax.setText(rs.getString("pax"));
             }
         }
 
@@ -75,11 +96,10 @@ public class ReservationForm extends javax.swing.JDialog {
         jComboBoxEventType = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextFieldTime = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextAreaRequest = new javax.swing.JTextArea();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDateChooser = new com.toedter.calendar.JDateChooser();
         jTextFieldguets = new javax.swing.JSpinner();
         jLabel10 = new javax.swing.JLabel();
         jTextFieldphone = new javax.swing.JTextField();
@@ -88,8 +108,16 @@ public class ReservationForm extends javax.swing.JDialog {
         jLabel12 = new javax.swing.JLabel();
         jComboBoxpayment_method = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
+        jSpinnerTime = new javax.swing.JSpinner();
+        jLabel14 = new javax.swing.JLabel();
+        jTextFieldpax = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -112,6 +140,7 @@ public class ReservationForm extends javax.swing.JDialog {
         jLabel2.setText("Special Request:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 430, -1, -1));
 
+        jTextFieldpackage_name.setEnabled(false);
         jTextFieldpackage_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldpackage_nameActionPerformed(evt);
@@ -121,7 +150,9 @@ public class ReservationForm extends javax.swing.JDialog {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Description:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+
+        jTextFieldprice.setEnabled(false);
         jPanel1.add(jTextFieldprice, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 160, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -130,9 +161,10 @@ public class ReservationForm extends javax.swing.JDialog {
 
         jTextAreadescription.setColumns(20);
         jTextAreadescription.setRows(5);
+        jTextAreadescription.setEnabled(false);
         jScrollPane1.setViewportView(jTextAreadescription);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 160, 150));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 160, 110));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Price:");
@@ -144,7 +176,7 @@ public class ReservationForm extends javax.swing.JDialog {
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 90, -1, -1));
 
         jComboBoxEventType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Wedding", "Fiesta", "Birthday", "Corporate", " " }));
-        jPanel1.add(jComboBoxEventType, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 370, 170, -1));
+        jPanel1.add(jComboBoxEventType, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 370, 160, -1));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Event Time:");
@@ -153,13 +185,6 @@ public class ReservationForm extends javax.swing.JDialog {
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("Event Date:");
         jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 480, -1, 20));
-
-        jTextFieldTime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldTimeActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jTextFieldTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 430, 170, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel9.setText("Venue:");
@@ -170,7 +195,7 @@ public class ReservationForm extends javax.swing.JDialog {
         jScrollPane2.setViewportView(jTextAreaRequest);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, 170, 110));
-        jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 480, 170, -1));
+        jPanel1.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 480, 160, -1));
         jPanel1.add(jTextFieldguets, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 90, 160, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -194,6 +219,16 @@ public class ReservationForm extends javax.swing.JDialog {
         jLabel13.setText("Payment Method:");
         jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 370, -1, -1));
 
+        jSpinnerTime.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(), new java.util.Date(), java.util.Calendar.AM_PM));
+        jPanel1.add(jSpinnerTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, 160, 30));
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel14.setText("Pax:");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, -1, -1));
+
+        jTextFieldpax.setEnabled(false);
+        jPanel1.add(jTextFieldpax, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, 160, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -213,7 +248,11 @@ public class ReservationForm extends javax.swing.JDialog {
     private void jButtonReserveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReserveActionPerformed
         // Collect input values
     String eventType = jComboBoxEventType.getSelectedItem().toString();
-    String eventTime = jTextFieldTime.getText().trim();
+    
+    Date selectedTime = (Date) jSpinnerTime.getValue();
+SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+String timeString = sdf.format(selectedTime);
+System.out.println("Selected time: " + timeString);
     int guests = (Integer) jTextFieldguets.getValue(); // Spinner value
     String venue = jTextFieldvenue.getText().trim();
     String specialRequest = jTextAreaRequest.getText().trim();
@@ -222,27 +261,27 @@ public class ReservationForm extends javax.swing.JDialog {
     String paymentMethod = jComboBoxpayment_method.getSelectedItem().toString();
 
     // Validate required fields
-    if (jDateChooser1.getDate() == null || eventTime.isEmpty() || venue.isEmpty() || phone.isEmpty()) {
+    if (jDateChooser.getDate() == null || timeString.isEmpty() || venue.isEmpty() || phone.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Please fill all required fields!");
         return;
     }
-
+    System.out.println("INSERTING USER ID: " + Session.u_id);
     try (Connection conn = config.connectDB();
-         PreparedStatement pst = conn.prepareStatement(
+         PreparedStatement pst = conn.prepareStatement (
                  "INSERT INTO tbl_reservations " +
                  "(u_id, p_id, event_type, event_time, event_date, num_guests, venue, special_request, phone, downpayment, payment_method, status) " +
                  "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'PENDING')")) {
 
         // Format date
-        java.util.Date selectedDate = jDateChooser1.getDate();
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = sdf.format(selectedDate);
+        java.util.Date selectedDate = jDateChooser.getDate();
+        java.text.SimpleDateFormat pdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = pdf.format(selectedDate);
 
         // Set parameters
         pst.setInt(1, Session.u_id);
         pst.setInt(2, packageId);
         pst.setString(3, eventType);
-        pst.setString(4, eventTime);
+        pst.setString(4, timeString);
         pst.setString(5, formattedDate);
         pst.setInt(6, guests);
         pst.setString(7, venue);
@@ -268,9 +307,23 @@ public class ReservationForm extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldpackage_nameActionPerformed
 
-    private void jTextFieldTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTimeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldTimeActionPerformed
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+       // 🔐 CHECK LOGIN FIRST
+    if (Session.u_id == 0) {
+
+        JOptionPane.showMessageDialog(this, "Please login first!");
+
+        // Open login form
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
+
+        // Close this dashboard immediately
+        this.dispose();
+        return;
+    }
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -307,6 +360,7 @@ public class ReservationForm extends javax.swing.JDialog {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
+                        
                     }
                 });
                 dialog.setVisible(true);
@@ -318,12 +372,13 @@ public class ReservationForm extends javax.swing.JDialog {
     private javax.swing.JButton jButtonReserve;
     private javax.swing.JComboBox<String> jComboBoxEventType;
     private javax.swing.JComboBox<String> jComboBoxpayment_method;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -335,12 +390,13 @@ public class ReservationForm extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinnerTime;
     private javax.swing.JSpinner jSpinnerdownpayment;
     private javax.swing.JTextArea jTextAreaRequest;
     private javax.swing.JTextArea jTextAreadescription;
-    private javax.swing.JTextField jTextFieldTime;
     private javax.swing.JSpinner jTextFieldguets;
     private javax.swing.JTextField jTextFieldpackage_name;
+    private javax.swing.JTextField jTextFieldpax;
     private javax.swing.JTextField jTextFieldphone;
     private javax.swing.JTextField jTextFieldprice;
     private javax.swing.JTextField jTextFieldvenue;

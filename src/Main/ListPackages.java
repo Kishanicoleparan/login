@@ -50,14 +50,15 @@ public class ListPackages extends javax.swing.JFrame {
          PreparedStatement pst = conn.prepareStatement(sql);
          ResultSet rs = pst.executeQuery()) {
 
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("p_id"),
-                rs.getString("package_name"),
-                rs.getDouble("price"),
-                rs.getString("description")
-            });
-        }
+       while (rs.next()) {
+    model.addRow(new Object[]{
+        rs.getInt("p_id"),
+        rs.getString("package_name"),
+        rs.getDouble("price"),
+        rs.getInt("pax"),           // ✅ ADDED
+        rs.getString("description")
+    });
+}
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, e.getMessage());
@@ -66,7 +67,7 @@ public class ListPackages extends javax.swing.JFrame {
 
    void displayPackage() {
            config conf = new config();
-           String sql = "SELECT p_id, package_name, price, description, status FROM tbl_packages";
+           String sql = "SELECT p_id, package_name, price, description, pax, status FROM tbl_packages";
            conf.displayUser(sql, table_packages);
            
     }
@@ -92,9 +93,9 @@ public class ListPackages extends javax.swing.JFrame {
         Packages = new javax.swing.JButton();
         Reservations = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         jButtondashboard = new javax.swing.JButton();
         profile = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_packages = new javax.swing.JTable();
         jButtonreserved = new javax.swing.JButton();
@@ -113,11 +114,16 @@ public class ListPackages extends javax.swing.JFrame {
         menuBar1.add(menu2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jpanel.setBackground(new java.awt.Color(51, 51, 51));
+        jpanel.setBackground(new java.awt.Color(0, 0, 0));
         jpanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jpanelMouseClicked(evt);
@@ -125,6 +131,7 @@ public class ListPackages extends javax.swing.JFrame {
         });
         jpanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        Packages.setBackground(new java.awt.Color(0, 153, 153));
         Packages.setText("Packages");
         Packages.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -136,42 +143,48 @@ public class ListPackages extends javax.swing.JFrame {
                 PackagesActionPerformed(evt);
             }
         });
-        jpanel.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 140, -1));
+        jpanel.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
 
+        Reservations.setBackground(new java.awt.Color(0, 153, 153));
         Reservations.setText("Reservations");
         Reservations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ReservationsActionPerformed(evt);
             }
         });
-        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, -1));
+        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 140, -1));
 
+        Logout.setBackground(new java.awt.Color(0, 153, 153));
         Logout.setText("Logout");
         Logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LogoutActionPerformed(evt);
             }
         });
-        jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
+        jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
-        jpanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 120, 90));
-
+        jButtondashboard.setBackground(new java.awt.Color(0, 153, 153));
         jButtondashboard.setText("Dashboard");
         jButtondashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtondashboardActionPerformed(evt);
             }
         });
-        jpanel.add(jButtondashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 140, -1));
+        jpanel.add(jButtondashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 140, -1));
 
+        profile.setBackground(new java.awt.Color(0, 153, 153));
         profile.setText("Profile");
         profile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 profileActionPerformed(evt);
             }
         });
-        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 140, -1));
+        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/redefined.png"))); // NOI18N
+        jLabel2.setOpaque(true);
+        jpanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, 150));
 
         jPanel1.add(jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 510));
 
@@ -187,6 +200,7 @@ public class ListPackages extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, -1, 190));
 
+        jButtonreserved.setBackground(new java.awt.Color(0, 204, 204));
         jButtonreserved.setText("Reserved");
         jButtonreserved.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,6 +209,7 @@ public class ListPackages extends javax.swing.JFrame {
         });
         jPanel1.add(jButtonreserved, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, -1, -1));
 
+        jButtonviewReservation.setBackground(new java.awt.Color(0, 204, 204));
         jButtonviewReservation.setText("View Reservations");
         jButtonviewReservation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,6 +218,7 @@ public class ListPackages extends javax.swing.JFrame {
         });
         jPanel1.add(jButtonviewReservation, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 70, -1, -1));
 
+        jButtonsearch.setBackground(new java.awt.Color(0, 204, 204));
         jButtonsearch.setText("Search");
         jButtonsearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,16 +345,35 @@ rf.setVisible(true);
     }
 
     config conf = new config();
-    String sql =
-    "SELECT p_id, package_name, price, pax, description, status FROM tbl_packages " +
-    "WHERE package_name LIKE '%" + keyword + "%' " +
-    "OR price LIKE '%" + keyword + "%' " +
-    "OR pax LIKE '%" + keyword + "%' " +  // NEW
-    "OR description LIKE '%" + keyword + "%'";
+   String sql =
+"SELECT p_id, package_name, price, pax, description, status FROM tbl_packages " +
+"WHERE package_name LIKE '%" + keyword + "%' " +
+"OR price LIKE '%" + keyword + "%' " +
+"OR pax LIKE '%" + keyword + "%' " +
+"OR description LIKE '%" + keyword + "%' " +
+"OR status LIKE '%" + keyword + "%'";
 
 
     conf.displayUser(sql, table_packages);
     }//GEN-LAST:event_jButtonsearchActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // 🔐 CHECK LOGIN FIRST
+    if (Session.u_id == 0) {
+
+        JOptionPane.showMessageDialog(this, "Please login first!");
+
+        // Open login form
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
+
+        // Close this dashboard immediately
+        this.dispose();
+        return;
+    }
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -383,7 +418,7 @@ rf.setVisible(true);
     private javax.swing.JButton jButtonreserved;
     private javax.swing.JButton jButtonsearch;
     private javax.swing.JButton jButtonviewReservation;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;

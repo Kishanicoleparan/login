@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class ViewReservationTable extends javax.swing.JFrame {
 
    private DefaultTableModel model;
+  
     public ViewReservationTable() {
         initComponents();
         
@@ -35,6 +36,7 @@ public class ViewReservationTable extends javax.swing.JFrame {
 
     // ✅ Now safely load reservations
     loadMyReservations();
+        
     }
 
 private void loadMyReservations() {
@@ -162,7 +164,6 @@ private void cancelReservation() {
 
 
 
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -172,22 +173,23 @@ private void cancelReservation() {
         Packages = new javax.swing.JButton();
         Reservations = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         jButtondashboard = new javax.swing.JButton();
         profile = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableReservations = new javax.swing.JTable();
         jButtoncancelreservation = new javax.swing.JButton();
         jTextFieldsearchbar = new javax.swing.JTextField();
         jButtonsearch = new javax.swing.JButton();
         jButtonrefresh = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jpanel.setBackground(new java.awt.Color(51, 51, 51));
+        jpanel.setBackground(new java.awt.Color(0, 0, 0));
         jpanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jpanelMouseClicked(evt);
@@ -195,6 +197,7 @@ private void cancelReservation() {
         });
         jpanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        Packages.setBackground(new java.awt.Color(0, 153, 153));
         Packages.setText("Packages");
         Packages.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -206,42 +209,48 @@ private void cancelReservation() {
                 PackagesActionPerformed(evt);
             }
         });
-        jpanel.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 220, 140, -1));
+        jpanel.add(Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 140, -1));
 
+        Reservations.setBackground(new java.awt.Color(0, 153, 153));
         Reservations.setText("Reservations");
         Reservations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ReservationsActionPerformed(evt);
             }
         });
-        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, -1));
+        jpanel.add(Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 140, -1));
 
+        Logout.setBackground(new java.awt.Color(0, 153, 153));
         Logout.setText("Logout");
         Logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LogoutActionPerformed(evt);
             }
         });
-        jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
+        jpanel.add(Logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 140, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
-        jpanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 130, 120));
-
+        jButtondashboard.setBackground(new java.awt.Color(0, 153, 153));
         jButtondashboard.setText("Dashboard");
         jButtondashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtondashboardActionPerformed(evt);
             }
         });
-        jpanel.add(jButtondashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 140, -1));
+        jpanel.add(jButtondashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 140, -1));
 
+        profile.setBackground(new java.awt.Color(0, 153, 153));
         profile.setText("Profile");
         profile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 profileActionPerformed(evt);
             }
         });
-        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 140, -1));
+        jpanel.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 140, -1));
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/redefined.png"))); // NOI18N
+        jLabel2.setOpaque(true);
+        jpanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, 150));
 
         jPanel1.add(jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 490));
 
@@ -255,8 +264,9 @@ private void cancelReservation() {
         ));
         jScrollPane1.setViewportView(tableReservations);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, 520, 370));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 850, 370));
 
+        jButtoncancelreservation.setBackground(new java.awt.Color(0, 153, 153));
         jButtoncancelreservation.setText("Cancel Reservation");
         jButtoncancelreservation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,29 +280,39 @@ private void cancelReservation() {
                 jTextFieldsearchbarMouseClicked(evt);
             }
         });
-        jPanel1.add(jTextFieldsearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 20, 150, -1));
+        jPanel1.add(jTextFieldsearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 20, 150, -1));
 
-        jButtonsearch.setText("SEARCH");
+        jButtonsearch.setBackground(new java.awt.Color(0, 153, 153));
+        jButtonsearch.setText("Search");
         jButtonsearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonsearchActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, -1, -1));
+        jPanel1.add(jButtonsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 20, -1, -1));
 
+        jButtonrefresh.setBackground(new java.awt.Color(0, 153, 153));
         jButtonrefresh.setText("Refresh");
         jButtonrefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonrefreshActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonrefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, -1, -1));
+        jPanel1.add(jButtonrefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 60, 100, -1));
+
+        jButton1.setText("Edit Reservation");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 130, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1117, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,6 +408,28 @@ private void cancelReservation() {
        cancelReservation();
     }//GEN-LAST:event_jButtoncancelreservationActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+   int selectedRow = tableReservations.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a reservation to edit.");
+        return;
+    }
+
+    // Get reservation ID from table model
+    int reservationId = (int) model.getValueAt(selectedRow, 0);
+
+    // Open EditReservation dialog and pass a callback to refresh the table
+    EditReservation dialog = new EditReservation(
+        this,               // parent frame
+        true,               // modal
+        reservationId,      // selected reservation ID
+        () -> loadMyReservations() // callback to reload table
+    );
+
+    dialog.setLocationRelativeTo(this); // center dialog
+    dialog.setVisible(true);            // open dialog
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -428,11 +470,12 @@ private void cancelReservation() {
     private javax.swing.JButton Logout;
     private javax.swing.JButton Packages;
     private javax.swing.JButton Reservations;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtoncancelreservation;
     private javax.swing.JButton jButtondashboard;
     private javax.swing.JButton jButtonrefresh;
     private javax.swing.JButton jButtonsearch;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldsearchbar;

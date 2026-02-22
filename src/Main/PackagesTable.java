@@ -98,11 +98,11 @@ public class PackagesTable extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         logout = new javax.swing.JButton();
         jButton4Packages = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         jButton5dashboard = new javax.swing.JButton();
         jButton3Reservations = new javax.swing.JButton();
         jButton1ViewUsers = new javax.swing.JButton();
         UserProfile = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_package = new javax.swing.JTable();
         addPackage = new javax.swing.JButton();
@@ -114,12 +114,13 @@ public class PackagesTable extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        logout.setBackground(new java.awt.Color(0, 153, 153));
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,6 +129,7 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, -1));
 
+        jButton4Packages.setBackground(new java.awt.Color(0, 153, 153));
         jButton4Packages.setText("Packages");
         jButton4Packages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,9 +138,7 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 140, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 130, 120));
-
+        jButton5dashboard.setBackground(new java.awt.Color(0, 153, 153));
         jButton5dashboard.setText("Dashboard");
         jButton5dashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +147,7 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 140, -1));
 
+        jButton3Reservations.setBackground(new java.awt.Color(0, 153, 153));
         jButton3Reservations.setText("Reservations");
         jButton3Reservations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,7 +156,7 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 140, -1));
 
-        jButton1ViewUsers.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1ViewUsers.setBackground(new java.awt.Color(0, 153, 153));
         jButton1ViewUsers.setText("View Users");
         jButton1ViewUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +165,7 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel2.add(jButton1ViewUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 140, -1));
 
-        UserProfile.setBackground(new java.awt.Color(255, 255, 255));
+        UserProfile.setBackground(new java.awt.Color(0, 153, 153));
         UserProfile.setText("Profile");
         UserProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,6 +173,11 @@ public class PackagesTable extends javax.swing.JFrame {
             }
         });
         jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/redefined.png"))); // NOI18N
+        jLabel2.setOpaque(true);
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 150));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
@@ -187,6 +193,7 @@ public class PackagesTable extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 580, -1));
 
+        addPackage.setBackground(new java.awt.Color(0, 204, 204));
         addPackage.setText("Add Package");
         addPackage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,6 +202,7 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel1.add(addPackage, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, -1, -1));
 
+        editpackage.setBackground(new java.awt.Color(0, 204, 204));
         editpackage.setText("Edit Package");
         editpackage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,6 +211,7 @@ public class PackagesTable extends javax.swing.JFrame {
         });
         jPanel1.add(editpackage, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 80, -1, -1));
 
+        deletepackage.setBackground(new java.awt.Color(0, 204, 204));
         deletepackage.setText("Delete Package");
         deletepackage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,7 +225,7 @@ public class PackagesTable extends javax.swing.JFrame {
                 jTextFieldSearchbarActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldSearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 150, -1));
+        jPanel1.add(jTextFieldSearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 150, -1));
 
         jButtonClicksearch.setText("Search");
         jButtonClicksearch.addActionListener(new java.awt.event.ActionListener() {
@@ -224,15 +233,16 @@ public class PackagesTable extends javax.swing.JFrame {
                 jButtonClicksearchActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonClicksearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, -1, -1));
+        jPanel1.add(jButtonClicksearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 20, -1, -1));
 
+        jButton1.setBackground(new java.awt.Color(0, 204, 204));
         jButton1.setText("Refresh");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 80, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -451,7 +461,7 @@ displayPackage();
     private javax.swing.JButton jButton4Packages;
     private javax.swing.JButton jButton5dashboard;
     private javax.swing.JButton jButtonClicksearch;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

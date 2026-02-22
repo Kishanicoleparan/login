@@ -46,7 +46,9 @@ public class ReservationsTable extends javax.swing.JFrame {
     void displayReservations() {
     config conf = new config();
 
-   String sql = "SELECT r_id, u_id, event_type, event_date, event_time, " + "venue, num_guests, status, special_request, phone, downpayment, payment_method " + "FROM tbl_reservations";
+   String sql = "SELECT r_id, u_id, p_id, event_type, event_date, event_time, " +
+             "venue, num_guests, status, special_request, phone, downpayment, payment_method " +
+             "FROM tbl_reservations";
 
     conf.displayUser(sql, table_reservations);
 }
@@ -123,10 +125,10 @@ public class ReservationsTable extends javax.swing.JFrame {
         return;
     }
 
-    String sql = "SELECT r_id, u_id, event_type, event_date, event_time, " +
-                 "venue, num_guests, status, special_request, phone, downpayment, payment_method " +
-                 "FROM tbl_reservations " +
-                 "WHERE venue LIKE ? OR status LIKE ? OR phone LIKE ? OR payment_method LIKE ?";
+    String sql = "SELECT r_id, u_id, p_id, event_type, event_date, event_time, " +
+             "venue, num_guests, status, special_request, phone, downpayment, payment_method " +
+             "FROM tbl_reservations " +
+             "WHERE venue LIKE ? OR status LIKE ? OR phone LIKE ? OR payment_method LIKE ?";
 
     try (Connection conn = config.connectDB();
          PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -145,9 +147,11 @@ public class ReservationsTable extends javax.swing.JFrame {
         model.setRowCount(0);
 
         while (rs.next()) {
+            System.out.println("User ID from DB: " + rs.getInt("u_id"));
             model.addRow(new Object[]{
                 rs.getInt("r_id"),
                 rs.getInt("u_id"),
+                rs.getInt("p_id"),
                 rs.getString("event_type"),
                 rs.getString("event_date"),
                 rs.getString("event_time"),
@@ -195,8 +199,8 @@ public class ReservationsTable extends javax.swing.JFrame {
         logout = new javax.swing.JButton();
         jButton3Reservations = new javax.swing.JButton();
         jButton4Packages = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         jButton5dashboard = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_reservations = new javax.swing.JTable();
         jButtonreject = new javax.swing.JButton();
@@ -207,65 +211,76 @@ public class ReservationsTable extends javax.swing.JFrame {
         jButtonrefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1ViewUsers.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1ViewUsers.setBackground(new java.awt.Color(0, 153, 153));
         jButton1ViewUsers.setText("View Users");
         jButton1ViewUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ViewUsersActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1ViewUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 140, -1));
+        jPanel2.add(jButton1ViewUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 140, -1));
 
-        UserProfile.setBackground(new java.awt.Color(255, 255, 255));
+        UserProfile.setBackground(new java.awt.Color(0, 153, 153));
         UserProfile.setText("Profile");
         UserProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UserProfileActionPerformed(evt);
             }
         });
-        jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 140, -1));
+        jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 140, -1));
 
+        logout.setBackground(new java.awt.Color(0, 153, 153));
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutActionPerformed(evt);
             }
         });
-        jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, -1));
+        jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 140, -1));
 
+        jButton3Reservations.setBackground(new java.awt.Color(0, 153, 153));
         jButton3Reservations.setText("Reservations");
         jButton3Reservations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ReservationsActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
+        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 140, -1));
 
+        jButton4Packages.setBackground(new java.awt.Color(0, 153, 153));
         jButton4Packages.setText("Packages");
         jButton4Packages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4PackagesActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 140, -1));
+        jPanel2.add(jButton4Packages, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 140, -1));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/catering (1).png"))); // NOI18N
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 130, 120));
-
+        jButton5dashboard.setBackground(new java.awt.Color(0, 153, 153));
         jButton5dashboard.setText("Dashboard");
         jButton5dashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5dashboardActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 140, -1));
+        jPanel2.add(jButton5dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 140, -1));
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/redefined.png"))); // NOI18N
+        jLabel2.setOpaque(true);
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 150));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
@@ -279,11 +294,13 @@ public class ReservationsTable extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table_reservations);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 570, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 970, -1));
 
+        jButtonreject.setBackground(new java.awt.Color(0, 153, 153));
         jButtonreject.setText("Reject Reservation");
         jPanel1.add(jButtonreject, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 80, -1, -1));
 
+        jButtonapproved.setBackground(new java.awt.Color(0, 153, 153));
         jButtonapproved.setText("Approved Reservation");
         jButtonapproved.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -295,39 +312,42 @@ public class ReservationsTable extends javax.swing.JFrame {
                 jButtonapprovedActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonapproved, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, -1, -1));
+        jPanel1.add(jButtonapproved, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, -1, -1));
 
+        jButtondelete.setBackground(new java.awt.Color(0, 153, 153));
         jButtondelete.setText("Delete Reservation");
-        jPanel1.add(jButtondelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 80, 130, -1));
+        jPanel1.add(jButtondelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 80, 150, -1));
 
         jTextFieldsearchbar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldsearchbarActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldsearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, 140, -1));
+        jPanel1.add(jTextFieldsearchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 30, 140, -1));
 
+        jButtonsearch.setBackground(new java.awt.Color(0, 153, 153));
         jButtonsearch.setText("Search");
         jButtonsearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonsearchActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 20, -1, -1));
+        jPanel1.add(jButtonsearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 30, 80, -1));
 
+        jButtonrefresh.setBackground(new java.awt.Color(0, 153, 153));
         jButtonrefresh.setText("Refresh");
         jButtonrefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonrefreshActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonrefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, -1, -1));
+        jPanel1.add(jButtonrefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 80, 110, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1233, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -420,6 +440,24 @@ public class ReservationsTable extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldsearchbarActionPerformed
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+          // 🔐 CHECK LOGIN FIRST
+    if (Session.u_id == 0) {
+
+        JOptionPane.showMessageDialog(this, "Please login first!");
+
+        // Open login form
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
+
+        // Close this dashboard immediately
+        this.dispose();
+        return;
+    }
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
@@ -466,7 +504,7 @@ public class ReservationsTable extends javax.swing.JFrame {
     private javax.swing.JButton jButtonrefresh;
     private javax.swing.JButton jButtonreject;
     private javax.swing.JButton jButtonsearch;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

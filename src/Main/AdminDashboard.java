@@ -17,6 +17,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
+import java.awt.Color;
 
 
 
@@ -73,7 +74,9 @@ private JFreeChart chart;
     // ===== MAIN DASHBOARD AREA =====
     JPanel dashboardArea = new JPanel();
     dashboardArea.setLayout(null);
-    dashboardArea.setBackground(Color.BLACK);
+    dashboardArea.setOpaque(true);
+    dashboardArea.setBackground(Color.DARK_GRAY);
+
 
     jPanel1.add(dashboardArea,
             new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 530, 480));
@@ -272,13 +275,13 @@ private JFreeChart chart;
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBackground(java.awt.Color.darkGray);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1ViewUsers.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1ViewUsers.setBackground(new java.awt.Color(0, 153, 153));
         jButton1ViewUsers.setText("View Users");
         jButton1ViewUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,7 +290,7 @@ private JFreeChart chart;
         });
         jPanel2.add(jButton1ViewUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 140, -1));
 
-        UserProfile.setBackground(new java.awt.Color(255, 255, 255));
+        UserProfile.setBackground(new java.awt.Color(0, 153, 153));
         UserProfile.setText("Profile");
         UserProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -296,6 +299,7 @@ private JFreeChart chart;
         });
         jPanel2.add(UserProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 140, -1));
 
+        logout.setBackground(new java.awt.Color(0, 153, 153));
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -304,6 +308,7 @@ private JFreeChart chart;
         });
         jPanel2.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 140, -1));
 
+        jButton3Reservations.setBackground(new java.awt.Color(0, 153, 153));
         jButton3Reservations.setText("Reservations");
         jButton3Reservations.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -337,7 +342,7 @@ private JFreeChart chart;
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
-        Jpanel3.setBackground(new java.awt.Color(51, 51, 51));
+        Jpanel3.setBackground(java.awt.Color.darkGray);
         Jpanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabelwelcome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
