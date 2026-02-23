@@ -295,7 +295,6 @@ public class UsersProfile extends javax.swing.JFrame {
         jLabelTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabelTitle.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitle.setText("User Profile");
-        jLabelTitle.setOpaque(true);
         jPanel3.add(jLabelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 130, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N

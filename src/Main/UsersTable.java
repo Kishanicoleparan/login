@@ -378,7 +378,11 @@ uf.setVisible(true);
     }//GEN-LAST:event_jButtoneEditUserMouseClicked
 
     private void jButton5dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5dashboardActionPerformed
-       
+ AdminDashboard admin = new AdminDashboard();
+       admin.setVisible(true);
+       admin.pack();
+       admin.setLocationRelativeTo(null);
+       this.dispose();       
     }//GEN-LAST:event_jButton5dashboardActionPerformed
 
     private void jButton4PackagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4PackagesActionPerformed

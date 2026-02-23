@@ -262,6 +262,7 @@ private JFreeChart chart;
         jButton4Packages = new javax.swing.JButton();
         jButton5dashboard = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         Jpanel3 = new javax.swing.JPanel();
         jLabelwelcome = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -282,7 +283,7 @@ private JFreeChart chart;
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton1ViewUsers.setBackground(new java.awt.Color(0, 153, 153));
-        jButton1ViewUsers.setText("View Users");
+        jButton1ViewUsers.setText("Manage Users");
         jButton1ViewUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ViewUsersActionPerformed(evt);
@@ -339,6 +340,9 @@ private JFreeChart chart;
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/redefined.png"))); // NOI18N
         jLabel2.setOpaque(true);
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 150));
+
+        jButton1.setText("Manage Staff");
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 490, 140, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 540));
 
@@ -492,6 +496,7 @@ private JFreeChart chart;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Jpanel3;
     private javax.swing.JButton UserProfile;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton1ViewUsers;
     private javax.swing.JButton jButton3Reservations;
     private javax.swing.JButton jButton4Packages;

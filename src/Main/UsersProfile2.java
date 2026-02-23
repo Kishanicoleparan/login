@@ -270,7 +270,6 @@ public class UsersProfile2 extends javax.swing.JFrame {
         jLabelTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabelTitle.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitle.setText("User Profile");
-        jLabelTitle.setOpaque(true);
         jPanel3.add(jLabelTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 140, 30));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -348,7 +347,7 @@ public class UsersProfile2 extends javax.swing.JFrame {
                 jButton3ReservationsActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 140, -1));
+        jPanel2.add(jButton3Reservations, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 140, -1));
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/redefined.png"))); // NOI18N
@@ -418,7 +417,11 @@ public class UsersProfile2 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4PackagesActionPerformed
 
     private void jButton5dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5dashboardActionPerformed
-        // Already on dashboard
+         AdminDashboard admin = new AdminDashboard();
+       admin.setVisible(true);
+       admin.pack();
+       admin.setLocationRelativeTo(null);
+       this.dispose();
     }//GEN-LAST:event_jButton5dashboardActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed

@@ -327,14 +327,12 @@ while (rs4.next()) {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Customer Dashboard");
-        jLabel6.setOpaque(true);
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, -1, -1));
 
-        jLabelWelcome.setBackground(new java.awt.Color(0, 153, 153));
+        jLabelWelcome.setBackground(new java.awt.Color(255, 255, 255));
         jLabelWelcome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabelWelcome.setForeground(new java.awt.Color(255, 255, 255));
         jLabelWelcome.setText("jLabel1");
-        jLabelWelcome.setOpaque(true);
         jPanel3.add(jLabelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, -1));
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, 560, -1));

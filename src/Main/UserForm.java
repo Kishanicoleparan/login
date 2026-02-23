@@ -67,6 +67,8 @@ public int u_id = 0; // 0 = ADD, >0 = UPDATE
         jComboBoxType = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel2cancel = new javax.swing.JPanel();
+        jLabelCancel = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -107,7 +109,7 @@ public int u_id = 0; // 0 = ADD, >0 = UPDATE
         jLabel.setText("Label");
         add.add(jLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 50, 20));
 
-        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 440, 200, 40));
+        jPanel1.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 420, 200, 40));
         jPanel1.add(jTextFieldemail, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 200, 30));
 
         jLabelemail1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -135,7 +137,20 @@ public int u_id = 0; // 0 = ADD, >0 = UPDATE
         jLabel2.setText("Role:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 520));
+        jPanel2cancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel2cancelMouseClicked(evt);
+            }
+        });
+        jPanel2cancel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelCancel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabelCancel.setText("Cancel");
+        jPanel2cancel.add(jLabelCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 60, -1));
+
+        jPanel1.add(jPanel2cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 490, 200, 40));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 580));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -247,6 +262,10 @@ private void updateUser() {
         updateUser();
     }
     }//GEN-LAST:event_addMouseClicked
+
+    private void jPanel2cancelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2cancelMouseClicked
+         this.dispose();   // closes the dialog
+    }//GEN-LAST:event_jPanel2cancelMouseClicked
 private boolean isEmailExists(String email) {
 
     String sql;
@@ -288,8 +307,8 @@ private boolean isEmailExists(String email) {
         JOptionPane.showMessageDialog(this, "Full name is required");
         return false;
     }
-
-    if (jTextFieldemail.getText().trim().isEmpty()) {
+if (isEmailExists(jTextFieldemail.getText().trim())) {
+    
     JOptionPane.showMessageDialog(this, "Email is required");
     return false;
 }
@@ -367,11 +386,13 @@ private boolean isEmailExists(String email) {
     private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelCancel;
     private javax.swing.JLabel jLabelemail;
     private javax.swing.JLabel jLabelemail1;
     private javax.swing.JLabel jLabeltype1;
     private javax.swing.JLabel jLabelusername;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2cancel;
     private javax.swing.JTextField jTextFieldemail;
     private javax.swing.JTextField jTextFieldfullname;
     private javax.swing.JTextField jTextFieldpassword;

@@ -347,7 +347,9 @@ public class ReservationsTable extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1233, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,7 +419,11 @@ public class ReservationsTable extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4PackagesActionPerformed
 
     private void jButton5dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5dashboardActionPerformed
-        // Already on dashboard
+        AdminDashboard admin = new AdminDashboard();
+       admin.setVisible(true);
+       admin.pack();
+       admin.setLocationRelativeTo(null);
+       this.dispose();
     }//GEN-LAST:event_jButton5dashboardActionPerformed
 
     private void jButtonsearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonsearchActionPerformed

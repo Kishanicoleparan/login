@@ -233,6 +233,11 @@ public class EditReservation extends javax.swing.JDialog {
 
         jButtoncancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButtoncancel.setText("Cancel");
+        jButtoncancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtoncancelActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButtoncancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 440, 160, -1));
         jPanel1.add(jTextFieldphone, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 350, 160, -1));
 
@@ -269,7 +274,7 @@ public class EditReservation extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
         );
 
         pack();
@@ -305,6 +310,10 @@ public class EditReservation extends javax.swing.JDialog {
     private void jDateChooserdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDateChooserdateMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jDateChooserdateMouseClicked
+
+    private void jButtoncancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtoncancelActionPerformed
+       this.dispose();   // Closes the dialog
+    }//GEN-LAST:event_jButtoncancelActionPerformed
 
     /**
      * @param args the command line arguments
